@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Galerie — La Grande Royale</title>
+<meta name="description" content="Découvrez La Grande Royale en images : conférences, séminaires, séances de coaching, dédicaces et formations.">
+<link rel="icon" type="image/svg+xml" href="assets/img/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<div class="progression" aria-hidden="true"></div>
+
+<header class="entete entete--transparent">
+  <div class="conteneur entete__interieur">
+    <a href="index.html" class="logo" aria-label="La Grande Royale, accueil">
+      <span class="logo__nom">La Grande Royale</span>
+      <span class="logo__baseline">Croire · Agir · Accomplir</span>
+    </a>
+    <button class="burger" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="navigation">
+      <span></span><span></span><span></span>
+    </button>
+    <nav class="nav" id="navigation" aria-label="Navigation principale">
+      <ul class="nav__liste">
+        <li><a class="nav__lien" href="index.html">Accueil</a></li>
+        <li><a class="nav__lien actif" href="galerie.html">Galerie</a></li>
+        <li><a class="nav__lien" href="conferences.html">Conférences &amp; Formations</a></li>
+        <li><a class="nav__lien" href="boutique.html">Boutique</a></li>
+        <li><a class="nav__lien" href="a-propos.html">À propos</a></li>
+      </ul>
+      <a href="boutique.html#commander" class="btn btn--plein btn--petit"><span>📖 Commander le livre</span></a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+<!-- ====================== BANNIÈRE ====================== -->
+<section class="heros-page">
+  <div class="heros-page__media"><img src="assets/img/banniere-galerie.svg" alt=""></div>
+  <div class="conteneur">
+    <span class="surtitre centre" data-anim>Galerie</span>
+    <h1 data-anim data-delai="80">Découvrez La Grande Royale<br>en images</h1>
+    <p class="heros-page__texte" data-anim data-delai="160">
+      La Grande Royale, c'est aussi des rencontres, des conférences, des formations,
+      des échanges et des moments de partage.
+    </p>
+    <p class="ariane" data-anim data-delai="240">
+      <a href="index.html">Accueil</a><span>/</span>Galerie
+    </p>
+  </div>
+</section>
+
+<!-- ====================== GALERIE PHOTO ====================== -->
+<section class="section">
+  <div class="conteneur">
+
+    <div class="filtres" data-anim role="group" aria-label="Filtrer la galerie">
+      <button class="filtre actif" data-filtre="tout"           aria-pressed="true">Tout</button>
+      <button class="filtre"       data-filtre="livres"         aria-pressed="false">Livres</button>
+      <button class="filtre"       data-filtre="conferences"    aria-pressed="false">Conférences</button>
+      <button class="filtre"       data-filtre="seminaires"     aria-pressed="false">Séminaires</button>
+      <button class="filtre"       data-filtre="coaching"       aria-pressed="false">Coaching</button>
+      <button class="filtre"       data-filtre="formations"     aria-pressed="false">Formations</button>
+      <button class="filtre"       data-filtre="entrepreneuriat" aria-pressed="false">Entrepreneuriat</button>
+      <button class="filtre"       data-filtre="marketing"      aria-pressed="false">Marketing de réseau</button>
+    </div>
+
+    <div class="grille-galerie">
+
+      <figure class="item-galerie item-galerie--haut" data-categorie="livres" data-anim tabindex="0">
+        <img src="assets/img/galerie-01.svg" alt="Présentation du livre Le Pouvoir de la Conviction">
+        <figcaption class="item-galerie__voile">
+          <span class="item-galerie__titre">Présentation du livre « Le Pouvoir de la Conviction »</span>
+          <span class="item-galerie__lieu">Ouagadougou — 2026</span>
+        </figcaption>
+      </figure>
+
+      <figure class="item-galerie" data-categorie="conferences" data-anim data-delai="60" tabindex="0">
+        <img src="assets/img/galerie-02.svg" alt="Conférence motivationnelle">
+        <figcaption class="item-galerie__voile">
+          <span class="item-galerie__titre">Conférence « De la vision à l'action »</span>
+          <span class="item-galerie__lieu">[Ville] — [Année]</span>
+        </figcaption>
+      </figure>
+
+      <figure class="item-galerie" data-categorie="seminaires" data-anim data-delai="120" tabindex="0">
+        <img src="assets/img/galerie-03.svg" alt="Séminaire de formation">
+        <figcaption class="item-galerie__voile">
+          <span class="item-galerie__titre">Séminaire entrepreneuriat</span>
+          <span class="item-galerie__lieu">[Ville] — [Année]</span>
+        </figcaption>
+      </figure>
+
+      <figure class="item-galerie" data-categorie="coaching" data-anim data-delai="60" tabindex="0">
+        <img src="assets/img/galerie-04.svg" alt="Séance de coaching individuel">
+        <figcaption class="item-galerie__voile">
+          <span class="item-galerie__titre">Séance de coaching individuel</span>
+          <span class="item-galerie__lieu">[Ville] — [Année]</span>
+        </figcaption>
+      </figure>
+
+      <figure class="item-galerie" data-categorie="formations" data-anim data-delai="120" tabindex="0">
+        <img src="assets/img/galerie-05.svg" alt="Atelier de formation">
+        <figcaption class="item-galerie__voile">
+          <span class="item-galerie__titre">Atelier pratique</span>
+          <span class="item-galerie__lieu">[Ville] — [Année]</span>
+        </figcaption>
+      </figure>
+
+      <figure class="item-galerie item-galerie--haut" data-categorie="entrepreneuriat" data-anim data-delai="60" tabindex="0">
+        <img src="assets/img/galerie-06.svg" alt="Rencontre entrepreneuriale">
+        <figcaption class="item-galerie__voile">
+          <span class="item-galerie__titre">Rencontre entrepreneuriale</span>
+          <span class="item-galerie__lieu">[Ville] — [Année]</span>
+        </figcaption>
+      </figure>
+
+      <figure class="item-galerie" data-categorie="marketing" data-anim data-delai="120" tabindex="0">
+        <img src="assets/img/galerie-07.svg" alt="Formation marketing de réseau">
+        <figcaption class="item-galerie__voile">
+          <span class="item-galerie__titre">Formation marketing de réseau</span>
+          <span class="item-galerie__lieu">[Ville] — [Année]</span>
+        </figcaption>
+      </figure>
+
+      <figure class="item-galerie" data-categorie="livres" data-anim data-delai="60" tabindex="0">
+        <img src="assets/img/galerie-08.svg" alt="Séance de dédicace">
+        <figcaption class="item-galerie__voile">
+          <span class="item-galerie__titre">Séance de dédicace</span>
+          <span class="item-galerie__lieu">[Ville] — [Année]</span>
+        </figcaption>
+      </figure>
+
+      <figure class="item-galerie" data-categorie="conferences" data-anim data-delai="120" tabindex="0">
+        <img src="assets/img/galerie-09.svg" alt="Intervention en entreprise">
+        <figcaption class="item-galerie__voile">
+          <span class="item-galerie__titre">Intervention en entreprise</span>
+          <span class="item-galerie__lieu">[Ville] — [Année]</span>
+        </figcaption>
+      </figure>
+
+      <figure class="item-galerie" data-categorie="seminaires" data-anim data-delai="60" tabindex="0">
+        <img src="assets/img/galerie-10.svg" alt="Séminaire leadership">
+        <figcaption class="item-galerie__voile">
+          <span class="item-galerie__titre">Séminaire leadership</span>
+          <span class="item-galerie__lieu">[Ville] — [Année]</span>
+        </figcaption>
+      </figure>
+
+      <figure class="item-galerie" data-categorie="formations" data-anim data-delai="120" tabindex="0">
+        <img src="assets/img/galerie-11.svg" alt="Formation en ligne">
+        <figcaption class="item-galerie__voile">
+          <span class="item-galerie__titre">Formation en ligne</span>
+          <span class="item-galerie__lieu">[Ville] — [Année]</span>
+        </figcaption>
+      </figure>
+
+      <figure class="item-galerie" data-categorie="marketing entrepreneuriat" data-anim data-delai="60" tabindex="0">
+        <img src="assets/img/galerie-12.svg" alt="Développement d'équipe">
+        <figcaption class="item-galerie__voile">
+          <span class="item-galerie__titre">Développement d'équipe</span>
+          <span class="item-galerie__lieu">[Ville] — [Année]</span>
+        </figcaption>
+      </figure>
+
+    </div>
+  </div>
+</section>
+
+<!-- ====================== GALERIE VIDÉO ====================== -->
+<section class="section section--encre" id="videos">
+  <div class="conteneur">
+    <div class="entete-section texte-centre" data-anim>
+      <span class="surtitre centre">Galerie vidéo</span>
+      <h2>Découvrez l'auteure en action</h2>
+      <p class="chapo" style="color:rgba(255,255,255,.62)">
+        Extraits de conférences, présentations du livre, témoignages et séminaires de formation.
+      </p>
+    </div>
+
+    <div class="grille-video">
+      <!-- Remplacez data-video par l'identifiant YouTube de la vidéo (ex : dQw4w9WgXcQ) -->
+      <figure class="video" data-video="" data-titre="Extrait d'une conférence" data-anim>
+        <img src="assets/img/video-01.svg" alt="">
+        <span class="video__play" aria-hidden="true">▶</span>
+        <figcaption class="video__titre">🎥 Extrait d'une conférence</figcaption>
+      </figure>
+
+      <figure class="video" data-video="" data-titre="Présentation du livre" data-anim data-delai="80">
+        <img src="assets/img/video-02.svg" alt="">
+        <span class="video__play" aria-hidden="true">▶</span>
+        <figcaption class="video__titre">🎥 Présentation du livre</figcaption>
+      </figure>
+
+      <figure class="video" data-video="" data-titre="Témoignage d'un lecteur" data-anim data-delai="160">
+        <img src="assets/img/video-03.svg" alt="">
+        <span class="video__play" aria-hidden="true">▶</span>
+        <figcaption class="video__titre">🎥 Témoignage d'un lecteur</figcaption>
+      </figure>
+
+      <figure class="video" data-video="" data-titre="Séminaire de formation" data-anim data-delai="240">
+        <img src="assets/img/video-04.svg" alt="">
+        <span class="video__play" aria-hidden="true">▶</span>
+        <figcaption class="video__titre">🎥 Séminaire de formation</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- ====================== APPEL ====================== -->
+<section class="appel">
+  <div class="appel__media"><img src="assets/img/appel.svg" alt=""></div>
+  <div class="conteneur conteneur-etroit" data-anim>
+    <span class="surtitre centre">Vous organisez un événement ?</span>
+    <h2>Invitez La Grande Royale</h2>
+    <p style="color:rgba(255,255,255,.75);max-width:56ch;margin:0 auto">
+      Conférences, séminaires, ateliers : donnez à votre public une rencontre qui inspire l'action.
+    </p>
+    <div class="groupe-btn" style="justify-content:center">
+      <a href="a-propos.html?objet=Conf%C3%A9rence#contact" class="btn btn--or"><span>Inviter l'auteure</span></a>
+      <a href="#" data-whatsapp="Bonjour La Grande Royale, je souhaite obtenir des informations." class="btn btn--contour-clair"><span>💬 WhatsApp</span></a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="pied">
+  <div class="conteneur">
+    <div class="pied__grille">
+      <div>
+        <span class="logo__nom">La Grande Royale</span>
+        <p class="pied__texte">
+          Un espace consacré à la transmission de connaissances, à l'inspiration
+          et au développement du potentiel humain.
+        </p>
+        <div class="reseaux">
+          <a href="https://www.facebook.com/share/1FHysP4hsX/" class="reseau" target="_blank" rel="noopener" aria-label="Facebook">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 12a10 10 0 1 0-11.6 9.9v-7H7.9V12h2.5V9.8c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.5h-1.3c-1.2 0-1.6.8-1.6 1.6V12h2.8l-.4 2.9h-2.4v7A10 10 0 0 0 22 12z"/></svg>
+          </a>
+          <a href="https://www.tiktok.com/@granderoyale99?_r=1&amp;_t=ZS-98nHWIzNS59" class="reseau" target="_blank" rel="noopener" aria-label="TikTok">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.6 5.8a4.3 4.3 0 0 1-1-2.8h-3v12.1a2.5 2.5 0 1 1-1.8-2.4V9.6a5.6 5.6 0 1 0 4.8 5.5V9.4a7.3 7.3 0 0 0 4.2 1.4V7.8a4.3 4.3 0 0 1-3.2-2z"/></svg>
+          </a>
+          <a href="#" data-whatsapp="true" class="reseau" aria-label="WhatsApp">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2zm5.8 14.2c-.2.7-1.2 1.3-1.7 1.3-.5.1-1 .1-1.6-.1-.4-.1-.9-.3-1.5-.6-2.6-1.1-4.3-3.8-4.4-4-.1-.2-1-1.4-1-2.6s.6-1.8.9-2.1c.2-.2.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 1.9c.1.2.1.3 0 .5l-.4.5-.3.3c-.1.1-.2.3 0 .5.2.3.7 1.2 1.6 2 1.1.9 1.9 1.2 2.2 1.3.2.1.4.1.5-.1l.8-.9c.2-.2.3-.2.5-.1l2 .9c.2.1.4.2.4.3.1.2.1.8-.1 1.4z"/></svg>
+          </a>
+        </div>
+      </div>
+      <div>
+        <h4>Navigation</h4>
+        <ul class="pied__liens">
+          <li><a href="index.html">Accueil</a></li>
+          <li><a href="galerie.html">Galerie</a></li>
+          <li><a href="conferences.html">Conférences &amp; Formations</a></li>
+          <li><a href="boutique.html">Boutique</a></li>
+          <li><a href="a-propos.html">À propos</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Services</h4>
+        <ul class="pied__liens">
+          <li><a href="conferences.html#conferences">Conférences</a></li>
+          <li><a href="conferences.html#seminaires">Séminaires</a></li>
+          <li><a href="conferences.html#coaching">Coaching</a></li>
+          <li><a href="boutique.html#formations">Formations en ligne</a></li>
+          <li><a href="boutique.html#publicite">Espaces publicitaires</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Contact</h4>
+        <ul class="pied__liens">
+          <li><a href="mailto:azetadinga@yahoo.fr">azetadinga@yahoo.fr</a></li>
+          <li><a href="mailto:granderoyale99@gmail.com">granderoyale99@gmail.com</a></li>
+          <li><a href="tel:+22674038900">+226 74 03 89 00</a></li>
+          <li><a href="tel:+22670256885">+226 70 25 68 85</a></li>
+          <li><a href="tel:+22678023909">+226 78 02 39 09</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="pied__bas">
+      <p>© <span data-annee>2026</span> La Grande Royale — Tous droits réservés.</p>
+      <nav aria-label="Liens légaux">
+        <a href="a-propos.html#mentions-legales">Mentions légales</a>
+        <a href="a-propos.html#mentions-legales">Données personnelles</a>
+        <a href="a-propos.html#mentions-legales">Conditions de vente</a>
+      </nav>
+    </div>
+  </div>
+</footer>
+
+<!-- Lightbox -->
+<div class="lightbox" aria-hidden="true" role="dialog" aria-label="Aperçu de l'image">
+  <button class="lightbox__fermer" aria-label="Fermer">✕</button>
+  <button class="lightbox__nav lightbox__nav--prec" aria-label="Image précédente">‹</button>
+  <img class="lightbox__img" src="" alt="">
+  <button class="lightbox__nav lightbox__nav--suiv" aria-label="Image suivante">›</button>
+  <p class="lightbox__legende"></p>
+</div>
+
+<a href="#" data-whatsapp="true" class="flottant-whatsapp" aria-label="Commander sur WhatsApp">
+  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2zm5.8 14.2c-.2.7-1.2 1.3-1.7 1.3-.5.1-1 .1-1.6-.1-.4-.1-.9-.3-1.5-.6-2.6-1.1-4.3-3.8-4.4-4-.1-.2-1-1.4-1-2.6s.6-1.8.9-2.1c.2-.2.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 1.9c.1.2.1.3 0 .5l-.4.5-.3.3c-.1.1-.2.3 0 .5.2.3.7 1.2 1.6 2 1.1.9 1.9 1.2 2.2 1.3.2.1.4.1.5-.1l.8-.9c.2-.2.3-.2.5-.1l2 .9c.2.1.4.2.4.3.1.2.1.8-.1 1.4z"/></svg>
+</a>
+
+<script src="assets/js/script.js"></script>
+</body>
+</html>
