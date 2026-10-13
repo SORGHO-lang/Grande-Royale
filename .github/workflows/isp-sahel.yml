@@ -1,0 +1,34 @@
+name: ISP SAHEL — vérifications
+
+on:
+  push:
+    paths: ["isp-sahel/**", ".github/workflows/isp-sahel.yml"]
+  pull_request:
+    paths: ["isp-sahel/**", ".github/workflows/isp-sahel.yml"]
+
+defaults:
+  run:
+    working-directory: isp-sahel
+
+jobs:
+  verifier:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: isp-sahel/package-lock.json
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm run lint
+      - run: npm test
+      - name: Migrations, seed et règles RLS (PostgreSQL local)
+        run: npm run test:db
+      - run: npm run build
+      - name: Aucun lien mort
+        run: |
+          npx next start -p 3000 &
+          for i in $(seq 1 30); do curl -sf -o /dev/null http://localhost:3000 && break; sleep 2; done
+          npm run check:links -- http://localhost:3000

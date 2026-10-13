@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /donnees/
+
+Sitemap: https://ispsahel.com/sitemap.xml

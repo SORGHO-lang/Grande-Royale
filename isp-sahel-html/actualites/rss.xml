@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<channel>
+  <title>Actualités — ISP SAHEL</title>
+  <link>https://ispsahel.com/actualites</link>
+  <atom:link href="https://ispsahel.com/actualites/rss.xml" rel="self" type="application/rss+xml"/>
+  <description>L&apos;ISP SAHEL est une école supérieure reconnue par l&apos;État qui offre des formations de haute qualité en Génie civil, Réseaux et Télécommunications et en Ingénierie des Systèmes Informatiques de niveau LICENCE et MASTER.</description>
+  <language>fr</language>
+  <item>
+    <title>Rentrée académique 2026-2027 — inscriptions ouvertes en Licence et en Master</title>
+    <link>https://ispsahel.com/actualites/rentree-academique-2026-2027-inscriptions-ouvertes</link>
+    <guid isPermaLink="true">https://ispsahel.com/actualites/rentree-academique-2026-2027-inscriptions-ouvertes</guid>
+    <pubDate>Thu, 01 Oct 2026 08:00:00 GMT</pubDate>
+    <category>Annonce</category>
+    <description>Les inscriptions pour l&apos;année académique 2026-2027 sont ouvertes dans nos 5 filières, en Licence et en Master.</description>
+  </item>
+  <item>
+    <title>Des diplômes reconnus par l&apos;État</title>
+    <link>https://ispsahel.com/actualites/des-diplomes-reconnus-par-l-etat</link>
+    <guid isPermaLink="true">https://ispsahel.com/actualites/des-diplomes-reconnus-par-l-etat</guid>
+    <pubDate>Tue, 15 Sep 2026 08:00:00 GMT</pubDate>
+    <category>Annonce</category>
+    <description>Ouvert en 2010 sous l&apos;autorisation du Ministère de l&apos;Enseignement Supérieur, l&apos;ISP SAHEL délivre des diplômes reconnus par l&apos;État.</description>
+  </item>
+</channel>
+</rss>
