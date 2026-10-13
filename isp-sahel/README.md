@@ -158,11 +158,9 @@ Les fichiers suivants sont des **visuels générés provisoirement** (mention «
 
 | Fichier | À remplacer par |
 | --- | --- |
-| `public/brand/logo.png` (+ `logo.svg`) | Logo officiel détouré (PNG transparent, 512 × 512) |
-| `src/app/icon.png`, `apple-icon.png`, `favicon.ico` | Dérivés du logo (192, 180 et 32 px) |
-| `public/hero/diplomee.jpg` | Étudiante en toge (affiche) — portrait ~1200 × 1400 |
 | `public/filieres/*.jpg` | Une photo par filière (~1200 × 750) |
-| `public/gallery/*.jpg` | Les 3 photos de cérémonie de remise de diplômes |
+
+Déjà remplacés par les visuels officiels : logo (`public/brand/logo.png` et icônes dérivées dans `src/app/`), photo d'accueil (`public/hero/diplomee.jpg`) et galerie (`public/gallery/ceremonie-*.jpg`, 26 photos).
 
 Voir aussi **[CHECKLIST.md](./CHECKLIST.md)** : liste des éléments à fournir par l'établissement.
 

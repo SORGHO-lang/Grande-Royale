@@ -85,8 +85,9 @@ Formats acceptés : PDF (conseillé), Word, Excel, PowerPoint, ZIP, CSV, TXT.
 
 ## 6. Remplacer les photos et le logo
 
-Les images actuelles sont **provisoires** (marquées « Photo à remplacer »).
-Remplacez chaque fichier par la vraie photo **en gardant exactement le même nom** :
+Le logo, la photo de l'accueil et la galerie sont déjà les visuels officiels.
+Les **photos des filières** sont encore **provisoires** (marquées « Photo à remplacer »).
+Pour changer une image, remplacez le fichier **en gardant exactement le même nom** :
 
 | Fichier | Photo à mettre |
 | --- | --- |

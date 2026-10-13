@@ -1,5 +1,6 @@
 /**
- * Génère les visuels de substitution (logo, favicon, photos).
+ * Génère les visuels de substitution restants (photos des filières).
+ * Le logo officiel et les icônes ne sont plus générés ici.
  * À REMPLACER par les vrais fichiers de l'établissement (voir README §Assets).
  * Usage : npm run assets   (n'écrase pas un fichier existant, sauf --force)
  */
@@ -106,9 +107,4 @@ const photos = [
   ["filieres/reseaux-telecoms.jpg", { w: 1200, h: 750, from: "#0d2a6b", to: "#0a9de0", title: "Réseaux &amp; Télécoms", subtitle: SUB, motif: "network" }],
 ];
 
-await write("brand/logo.svg", Buffer.from(logoSvg));
-await write("brand/logo.png", await png(logoSvg, 512));
-await write("../src/app/icon.png", await png(logoSvg, 192));
-await write("../src/app/apple-icon.png", await sharp(Buffer.from(logoSvg)).resize(180, 180).flatten({ background: "#ffffff" }).png().toBuffer());
-await write("../src/app/favicon.ico", await ico(logoSvg));
 for (const [rel, opts] of photos) await write(rel, await jpg(photoSvg(opts)));
