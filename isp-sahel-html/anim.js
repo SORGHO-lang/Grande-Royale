@@ -1,4 +1,4 @@
-/* ISP SAHEL — animations (apparition au défilement, compteurs, onde des boutons,
+/* ISP SAHEL — animations (apparition au défilement, compteurs,
    barre de progression, ombre de l'en-tête). Sans dépendance.
    La classe « anim » est posée sur <html> dans le <head> ; sans JavaScript,
    rien n'est masqué. Respecte le réglage « réduire les animations ». */
@@ -79,23 +79,6 @@
     new MutationObserver(function (muts) {
       for (var m = 0; m < muts.length; m++) if (muts[m].addedNodes.length) { scan(); break; }
     }).observe(document.body, { childList: true, subtree: true });
-  }
-
-  /* ─── Onde au clic sur les boutons ──────────────────────────────────── */
-  if (!reduce) {
-    document.addEventListener("pointerdown", function (e) {
-      var btn = e.target.closest && e.target.closest(".btn");
-      if (!btn || btn.disabled || btn.getAttribute("aria-disabled") === "true") return;
-      var r = btn.getBoundingClientRect();
-      var size = Math.max(r.width, r.height);
-      var span = document.createElement("span");
-      span.className = "ripple";
-      span.style.width = span.style.height = size + "px";
-      span.style.left = e.clientX - r.left - size / 2 + "px";
-      span.style.top = e.clientY - r.top - size / 2 + "px";
-      btn.appendChild(span);
-      setTimeout(function () { span.remove(); }, 700);
-    });
   }
 
   /* ─── Barre de progression + ombre de l'en-tête ─────────────────────── */

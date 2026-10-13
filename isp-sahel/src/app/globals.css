@@ -111,67 +111,89 @@ body {
     .container-page { padding-inline: 1.5rem; }
   }
 
+  /* ── Boutons « pastille qui s'étire » ──────────────────────────────
+     Une pastille ronde fléchée à gauche s'étire au survol pour remplir
+     le bouton. Couleurs réglées par variante via des variables CSS. */
   .btn {
+    --btn-bg: transparent;
+    --btn-fg: currentColor;
+    --btn-border: transparent;
+    --pill: rgba(255, 255, 255, 0.25);
+    --pill-fg: #ffffff;
+    --hover-fg: var(--btn-fg);
     display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
     min-height: 44px;
-    padding: 0.625rem 1.25rem;
+    padding: 0.625rem 1.5rem 0.625rem 3.4rem;
     border-radius: 9999px;
+    border: 2px solid var(--btn-border);
+    background-color: var(--btn-bg);
+    color: var(--btn-fg);
     font-weight: 600;
     line-height: 1.2;
     text-align: center;
     position: relative;
     overflow: hidden;
     isolation: isolate;
-    transition: transform 0.3s var(--ease-out), box-shadow 0.3s var(--ease-out), background-color 0.2s, background-size 0.4s var(--ease-out), color 0.2s, border-color 0.2s;
+    transition: color 0.45s var(--ease-out), border-color 0.3s;
   }
-  /* Reflet lumineux qui balaie le bouton au survol */
+  /* La pastille */
   .btn::before {
     content: "";
     position: absolute;
-    inset: 0;
     z-index: -1;
-    background: linear-gradient(110deg, transparent 25%, rgba(255, 255, 255, 0.45) 50%, transparent 75%);
-    transform: translateX(-130%);
-    transition: transform 0.75s var(--ease-out);
-    pointer-events: none;
-  }
-  .btn:hover::before { transform: translateX(130%); }
-  .btn:hover { transform: translateY(-2px); box-shadow: 0 12px 24px -10px rgba(13, 42, 107, 0.55); }
-  .btn:active { transform: translateY(0) scale(0.97); box-shadow: none; }
-  .btn svg { transition: transform 0.3s var(--ease-out); }
-  .btn:hover > svg:last-child:not(:first-child) { transform: translateX(4px); }
-  .btn[aria-disabled="true"]:hover, .btn:disabled:hover { transform: none; box-shadow: none; }
-  .btn[aria-disabled="true"]::before, .btn:disabled::before { display: none; }
-  /* Onde au clic (créée par anim.js) */
-  .btn .ripple {
-    position: absolute;
-    z-index: -1;
+    left: 4px;
+    top: 50%;
+    width: 34px;
+    height: 34px;
     border-radius: 9999px;
-    background: currentColor;
-    opacity: 0.25;
-    transform: scale(0);
-    animation: ripple 0.65s var(--ease-out) forwards;
+    background: var(--pill);
+    transform: translateY(-50%);
+    transition: width 0.5s var(--ease-out), height 0.5s var(--ease-out);
     pointer-events: none;
   }
-  .btn-primary { background: var(--primary); color: var(--on-primary); }
-  .btn-primary:hover { background: var(--primary-hover); }
-  .btn-accent { background: var(--gold); color: var(--navy); }
-  .btn-accent:hover { background: #ffcb2e; }
-  /* Contour : la couleur remplit le bouton en glissant au survol */
-  .btn-outline {
-    border: 2px solid var(--primary);
-    color: var(--link);
-    background: linear-gradient(var(--primary), var(--primary)) no-repeat left / 0% 100%;
+  /* La flèche dans la pastille */
+  .btn::after {
+    content: "";
+    position: absolute;
+    left: 13px;
+    top: 50%;
+    width: 16px;
+    height: 16px;
+    margin-top: -8px;
+    background: var(--pill-fg);
+    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12h14M13 6l6 6-6 6'/%3E%3C/svg%3E") center / contain no-repeat;
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12h14M13 6l6 6-6 6'/%3E%3C/svg%3E") center / contain no-repeat;
+    transition: transform 0.45s var(--ease-out);
+    pointer-events: none;
   }
-  [data-theme="dark"] .btn-outline { border-color: var(--line); color: var(--fg); }
-  .btn-outline:hover { background-size: 100% 100%; color: var(--on-primary); border-color: var(--primary); }
-  .btn-outline[aria-disabled="true"]:hover { background-size: 0% 100%; color: var(--link); }
-  .btn-light { border: 2px solid rgba(255,255,255,.75); color: #fff; }
-  .btn-light:hover { background: rgba(255,255,255,.12); }
-  .btn[aria-disabled="true"], .btn:disabled { opacity: .6; cursor: not-allowed; }
+  .btn:hover, .btn:focus-visible { color: var(--hover-fg); }
+  .btn:hover::before, .btn:focus-visible::before { width: calc(100% - 8px); height: calc(100% - 8px); }
+  .btn:hover::after, .btn:focus-visible::after { transform: translateX(3px); }
+  .btn:active::before { height: calc(100% - 12px); }
+  /* La flèche du texte est masquée : la pastille la porte déjà */
+  .btn svg[data-icon="arrow"] { display: none; }
+
+  .btn-primary { --btn-bg: var(--primary); --btn-fg: var(--on-primary); --pill: var(--gold); --pill-fg: var(--navy); --hover-fg: var(--navy); }
+  [data-theme="dark"] .btn-primary { --pill: #ffffff; }
+  .btn-accent { --btn-bg: var(--gold); --btn-fg: var(--navy); --pill: var(--navy); --pill-fg: var(--gold); --hover-fg: #ffffff; }
+  .btn-outline { --btn-border: var(--primary); --btn-fg: var(--link); --pill: var(--primary); --pill-fg: var(--on-primary); --hover-fg: var(--on-primary); }
+  [data-theme="dark"] .btn-outline { --btn-fg: var(--fg); }
+  .btn-light { --btn-border: rgba(255, 255, 255, 0.75); --btn-fg: #ffffff; --pill: #ffffff; --pill-fg: var(--navy); --hover-fg: var(--navy); }
+
+  /* Boutons désactivés : pas de pastille */
+  .btn[aria-disabled="true"], .btn:disabled { opacity: 0.6; cursor: not-allowed; padding-left: 1.5rem; }
+  .btn[aria-disabled="true"]::before, .btn[aria-disabled="true"]::after,
+  .btn:disabled::before, .btn:disabled::after { display: none; }
+  .btn[aria-disabled="true"]:hover, .btn:disabled:hover { color: var(--btn-fg); }
+  /* Administration : boutons simples */
+  .admin-ui .btn { padding-left: 1.25rem; padding-right: 1.25rem; }
+  .admin-ui .btn::before, .admin-ui .btn::after { display: none; }
+  .admin-ui .btn svg[data-icon="arrow"] { display: inline; }
+  .admin-ui .btn-primary:hover { background-color: var(--primary-hover); }
+  .admin-ui .btn-outline:hover { background-color: var(--surface-2); color: var(--btn-fg); }
 
   .card {
     background: var(--surface);
@@ -255,7 +277,6 @@ body {
   66% { transform: translate(-30px, 25px) scale(0.92); }
 }
 @keyframes fx-pulse { 0% { box-shadow: 0 0 0 0 rgba(21, 122, 58, 0.55); } 75%, 100% { box-shadow: 0 0 0 18px rgba(21, 122, 58, 0); } }
-@keyframes ripple { to { transform: scale(4); opacity: 0; } }
 @keyframes fx-reveal-safety { to { transform: none; filter: none; } }
 
 /* Entrée en cascade (accueil et bandeaux de titre) */
@@ -303,5 +324,6 @@ body { transition: background-color 0.35s, color 0.35s; }
 @media (prefers-reduced-motion: reduce) {
   .anim [data-reveal] * { transform: none !important; filter: none !important; }
   .fx-up, .fx-float, .fx-gradient, .fx-blob, .wa-float { animation: none !important; }
-  .btn::before, .scroll-progress { display: none; }
+  .btn::before, .btn::after { transition: none !important; }
+  .scroll-progress { display: none; }
 }

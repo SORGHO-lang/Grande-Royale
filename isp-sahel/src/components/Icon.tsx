@@ -193,6 +193,7 @@ export function Icon({ name, size = 20, title, ...rest }: Props) {
       strokeWidth={2}
       strokeLinecap="round"
       strokeLinejoin="round"
+      data-icon={name}
       aria-hidden={title ? undefined : true}
       role={title ? "img" : undefined}
       focusable="false"

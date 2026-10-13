@@ -69,7 +69,7 @@ export function Header({ telephone }: { telephone: string }) {
         </nav>
 
         <div className="ml-auto flex items-center gap-1 xl:ml-2">
-          <a href={telHref(telephone)} className="btn btn-accent hidden !px-4 sm:inline-flex xl:hidden 2xl:inline-flex" aria-label={`Appeler le ${telephone}`}>
+          <a href={telHref(telephone)} className="btn btn-accent hidden sm:inline-flex xl:hidden 2xl:inline-flex" aria-label={`Appeler le ${telephone}`}>
             <Icon name="phone" size={18} /> Appeler
           </a>
           <ThemeToggle />
