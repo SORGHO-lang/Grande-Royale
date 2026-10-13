@@ -174,3 +174,23 @@ Voir aussi **[CHECKLIST.md](./CHECKLIST.md)** : liste des éléments à fournir 
 - Explorateur de liens : 164 URL, **aucun lien mort**.
 - Navigateur : 17 pages × 5 largeurs (320 → 1440 px), aucun débordement horizontal, aucune image sans `alt`, aucune erreur console.
 - Lighthouse mobile (accueil) : Performance 92 · Accessibilité 100 · Bonnes pratiques 96 · SEO 100.
+
+---
+
+## 8. Version HTML (hébergement mutualisé Hostinger, sans Node.js)
+
+Le dossier **`../isp-sahel-html/`** contient une version **statique** du site (HTML + CSS + JS + un fichier PHP pour les formulaires), qui fonctionne sur n'importe quel hébergement web classique. Guide de mise en ligne en français : `isp-sahel-html/LISEZ-MOI.md`.
+
+- Même design et mêmes pages ; menu, mode sombre, galerie, recherche de documents et filtre des actualités en JavaScript sans dépendance (`static-export/assets/js/site.js`).
+- Formulaires → `envoi.php` : validation, anti-robots, limitation de débit, e-mail à l'établissement et enregistrement dans `donnees/*.csv` (dossier interdit d'accès web).
+- Documents : déposer un fichier nommé selon `documents/fichiers/NOMS-DES-FICHIERS.txt` active le bouton « Télécharger » (détection via `documents/liste.php`).
+- Pas d'espace d'administration.
+
+**Régénérer** après une modification du code ou de `src/lib/seed-data.ts` (sans variables Supabase, donc en mode démo) :
+
+```bash
+npm run build && npx next start -p 3100 &   # serveur local
+npm run export:html                          # écrit ../isp-sahel-html (conserve documents/fichiers et donnees)
+```
+
+Les fichiers modèles propres à cette version (PHP, `.htaccess`, scripts, guide) sont dans `static-export/`.

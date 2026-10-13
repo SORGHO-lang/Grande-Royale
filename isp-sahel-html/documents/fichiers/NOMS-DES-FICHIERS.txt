@@ -1,0 +1,15 @@
+Déposez ici les documents à télécharger, en les nommant EXACTEMENT ainsi
+(PDF de préférence ; Word, Excel, PowerPoint, ZIP acceptés aussi). Le bouton « Télécharger » apparaît tout seul.
+
+reglement-interieur.pdf   ←  Règlement intérieur
+guide-de-l-etudiant.pdf   ←  Guide de l'étudiant
+statuts-de-l-institut.pdf   ←  Statuts de l'institut
+calendrier-academique-2026-2027.pdf   ←  Calendrier académique 2026-2027
+programme-genie-civil-option-btp.pdf   ←  Programme — Génie civil, option BTP
+programme-genie-civil-option-geometre-topographie.pdf   ←  Programme — Génie civil, option Géomètre Topographie
+programme-ingenierie-des-systemes-informatiques-isi.pdf   ←  Programme — Ingénierie des Systèmes Informatiques (ISI)
+programme-informatique-de-gestion.pdf   ←  Programme — Informatique de Gestion
+programme-reseaux-informatiques-et-telecommunications.pdf   ←  Programme — Réseaux Informatiques et Télécommunications
+formulaire-d-inscription.pdf   ←  Formulaire d'inscription
+demande-d-attestation-releve-de-notes.pdf   ←  Demande d'attestation / relevé de notes
+dossier-de-candidature-en-master.pdf   ←  Dossier de candidature en Master

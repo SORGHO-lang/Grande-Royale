@@ -14,7 +14,8 @@
     "assets": "node scripts/generate-placeholders.mjs",
     "check:links": "node scripts/check-links.mjs",
     "create-admin": "node scripts/create-admin.mjs",
-    "test:db": "bash scripts/test-db.sh"
+    "test:db": "bash scripts/test-db.sh",
+    "export:html": "node scripts/export-html.mjs http://localhost:3100 ../isp-sahel-html"
   },
   "dependencies": {
     "@supabase/ssr": "^0.12.7",

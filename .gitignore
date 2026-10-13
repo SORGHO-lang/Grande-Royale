@@ -1,0 +1,4 @@
+# Données privées de la version HTML (jamais dans le dépôt)
+isp-sahel-html/donnees/*.csv
+isp-sahel-html/donnees/limites/
+apercus/
