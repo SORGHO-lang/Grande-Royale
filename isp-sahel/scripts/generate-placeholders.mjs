@@ -105,9 +105,6 @@ const photos = [
   ["filieres/systemes-informatiques.jpg", { w: 1200, h: 750, from: "#0a9de0", to: "#14409a", title: "Systèmes Informatiques", subtitle: SUB, motif: "code" }],
   ["filieres/informatique-gestion.jpg", { w: 1200, h: 750, from: "#14409a", to: "#1e9a3c", title: "Informatique de Gestion", subtitle: SUB, motif: "chart" }],
   ["filieres/reseaux-telecoms.jpg", { w: 1200, h: 750, from: "#0d2a6b", to: "#0a9de0", title: "Réseaux &amp; Télécoms", subtitle: SUB, motif: "network" }],
-  ["gallery/ceremonie-groupe.jpg", { w: 1600, h: 1000, from: "#0d2a6b", to: "#14409a", title: "Remise de diplômes Licence &amp; Master", subtitle: SUB, motif: "crowd" }],
-  ["gallery/remise-diplome.jpg", { w: 1200, h: 1200, from: "#14409a", to: "#0a9de0", title: "Remise de diplôme", subtitle: SUB, motif: "graduate" }],
-  ["gallery/diplomes-proches.jpg", { w: 1600, h: 1000, from: "#1e9a3c", to: "#0d2a6b", title: "Diplômés et proches", subtitle: SUB, motif: "crowd" }],
 ];
 
 await write("brand/logo.svg", Buffer.from(logoSvg));
