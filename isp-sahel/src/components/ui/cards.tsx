@@ -125,7 +125,7 @@ export function PartenaireCard({ p }: { p: Partenaire }) {
     <>
       <span className="flex h-20 w-full items-center justify-center">
         {p.logo_url ? (
-          <Image src={p.logo_url} alt={`Logo ${p.nom}`} width={160} height={80} className="max-h-20 w-auto object-contain" />
+          <Image src={p.logo_url} alt={`Logo ${p.nom}`} width={160} height={80} className="max-h-20 w-auto rounded-lg bg-white object-contain p-1" />
         ) : (
           <span className="inline-flex h-16 min-w-16 items-center justify-center rounded-2xl bg-surface-2 px-4 text-xl font-extrabold tracking-wide text-link" aria-hidden="true">
             {p.sigle || initiales(p.nom)}

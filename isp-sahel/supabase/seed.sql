@@ -113,7 +113,7 @@ insert into public.equipe (id, nom, fonction, photo_url, bio, ordre, publie) val
 on conflict (id) do nothing;
 
 insert into public.partenaires (id, nom, sigle, type, description, logo_url, site_url, ordre, publie) values
-  ('00000000-0000-4000-8000-000000000701', 'ISTM', 'ISTM', 'academique', null, null, null, 1, true),
+  ('00000000-0000-4000-8000-000000000701', 'ISTM', 'ISTM', 'academique', 'Institut des Sciences Techniques et de Management', '/partenaires/istm.png', null, 1, true),
   ('00000000-0000-4000-8000-000000000702', 'Université de Fada N''Gourma', null, 'academique', null, null, null, 2, true),
   ('00000000-0000-4000-8000-000000000703', 'Helen Keller International', 'HKI', 'ong', null, null, null, 3, true),
   ('00000000-0000-4000-8000-000000000704', 'Action contre la Faim', 'ACF', 'ong', null, null, null, 4, true),

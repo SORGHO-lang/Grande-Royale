@@ -499,7 +499,7 @@ export const SEED_EQUIPE: MembreEquipe[] = [
 ];
 
 export const SEED_PARTENAIRES: Partenaire[] = [
-  { id: id(701), nom: "ISTM", sigle: "ISTM", type: "academique", description: null, logo_url: null, site_url: null, ordre: 1, publie: true },
+  { id: id(701), nom: "ISTM", sigle: "ISTM", type: "academique", description: "Institut des Sciences Techniques et de Management", logo_url: "/partenaires/istm.png", site_url: null, ordre: 1, publie: true },
   { id: id(702), nom: "Université de Fada N'Gourma", sigle: null, type: "academique", description: null, logo_url: null, site_url: null, ordre: 2, publie: true },
   { id: id(703), nom: "Helen Keller International", sigle: "HKI", type: "ong", description: null, logo_url: null, site_url: null, ordre: 3, publie: true },
   { id: id(704), nom: "Action contre la Faim", sigle: "ACF", type: "ong", description: null, logo_url: null, site_url: null, ordre: 4, publie: true },
