@@ -42,10 +42,17 @@ const IMAGE_DIRS = ["brand", "hero", "filieres", "gallery", "equipe", "partenair
 for (const dir of IMAGE_DIRS) cpSync(path.join(root, "public", dir), path.join(out, dir), { recursive: true });
 cpSync(path.join(root, "src/app/favicon.ico"), path.join(out, "favicon.ico"));
 cpSync(path.join(root, "public/anim.js"), path.join(out, "anim.js"));
+// Numéro de version ajouté aux CSS/JS : chaque nouvel export force le navigateur
+// à recharger les fichiers au lieu de garder l'ancienne copie en cache.
+const VERSION = Date.now().toString(36);
 cpSync(path.join(root, "src/app/icon.png"), path.join(out, "icon.png"));
 cpSync(path.join(root, "src/app/apple-icon.png"), path.join(out, "apple-icon.png"));
 writeFileSync(path.join(out, "og.png"), Buffer.from(await (await get("/opengraph-image")).arrayBuffer()));
 cpSync(tpl, out, { recursive: true });
+{
+  const envoi = path.join(out, "envoi.php");
+  writeFileSync(envoi, readFileSync(envoi, "utf8").replace("/assets/css/site.css", `/assets/css/site.css?v=${VERSION}`));
+}
 if (existsSync(path.join(root, ".export-keep"))) {
   cpSync(path.join(root, ".export-keep"), out, { recursive: true });
   rmSync(path.join(root, ".export-keep"), { recursive: true, force: true });
@@ -71,14 +78,14 @@ async function transform(html) {
   // Feuille de style unique
   html = html.replace(/<link rel="stylesheet" href="(\/_next\/static\/css\/[^"]+)"[^>]*\/?>/g, (_, href) => {
     cssHref = href;
-    return '<link rel="stylesheet" href="/assets/css/site.css"/>';
+    return `<link rel="stylesheet" href="/assets/css/site.css?v=${VERSION}"/>`;
   });
   // Scripts Next.js (on garde uniquement le JSON-LD)
   html = html.replace(/<script(?![^>]*application\/ld\+json)[^>]*>[\s\S]*?<\/script>/g, "");
   html = html.replace(/<link[^>]+(\/_next\/static\/chunks|as="script"|as="image")[^>]*\/?>/g, "");
   html = html.replace(/<meta name="next-size-adjust"[^>]*\/?>/g, "");
   // Thème + script du site
-  html = html.replace("</head>", '<script src="/assets/js/theme.js"></script><script src="/assets/js/site.js" defer></script><script src="/anim.js" defer></script></head>');
+  html = html.replace("</head>", `<script src="/assets/js/theme.js?v=${VERSION}"></script><script src="/assets/js/site.js?v=${VERSION}" defer></script><script src="/anim.js?v=${VERSION}" defer></script></head>`);
   // Images : variantes WebP redimensionnées (srcset) + fichier d'origine en secours (src)
   html = html.replace(/\s(?:srcSet|srcset)="([^"]*)"/g, (_, set) => {
     const seen = new Set();

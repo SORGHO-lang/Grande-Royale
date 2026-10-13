@@ -37,7 +37,7 @@ function repondre(bool $ok, string $message, array $erreurs = []): void {
         $liste = '';
         foreach ($erreurs as $e) $liste .= '<li>' . htmlspecialchars($e) . '</li>';
         echo '<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">'
-           . '<meta name="robots" content="noindex"><title>' . $titre . ' | ISP SAHEL</title><link rel="stylesheet" href="/assets/css/site.css"></head>'
+           . '<meta name="robots" content="noindex"><title>' . $titre . ' | ISP SAHEL</title><link rel="stylesheet" href="/assets/css/site.css?v=mv723kd3"></head>'
            . '<body><main class="container-page py-16"><div class="card mx-auto max-w-xl p-8"><h1 class="text-2xl font-extrabold">' . $titre . '</h1>'
            . '<p class="mt-3">' . htmlspecialchars($message) . '</p>' . ($liste ? '<ul class="mt-3 list-disc pl-6">' . $liste . '</ul>' : '')
            . '<p class="mt-6"><a class="btn btn-primary" href="javascript:history.back()">Retour</a> <a class="btn btn-outline" href="/">Accueil</a></p></div></main></body></html>';
