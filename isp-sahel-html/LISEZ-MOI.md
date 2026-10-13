@@ -38,7 +38,7 @@ Il fonctionne avec **n'importe quelle formule** d'hébergement web (Premium, Bus
 ## 3. Activer le cadenas HTTPS (SSL)
 
 hPanel → **Sécurité** → **SSL** → à côté de ispsahel.com, cliquez sur **Installer** (certificat gratuit).
-Cela prend quelques minutes. Le site redirige ensuite automatiquement vers `https://`.
+Cela prend quelques minutes. Ensuite, sur la même page, activez **Forcer HTTPS** pour que tous les visiteurs passent en `https://`.
 
 ---
 
