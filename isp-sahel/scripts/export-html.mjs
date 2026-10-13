@@ -37,7 +37,7 @@ if (existsSync(out)) {
 mkdirSync(out, { recursive: true });
 
 // ─── 2. Ressources fixes ───────────────────────────────────────────────
-for (const dir of ["brand", "hero", "filieres", "gallery"]) cpSync(path.join(root, "public", dir), path.join(out, dir), { recursive: true });
+for (const dir of ["brand", "hero", "filieres", "gallery", "equipe"]) cpSync(path.join(root, "public", dir), path.join(out, dir), { recursive: true });
 cpSync(path.join(root, "src/app/favicon.ico"), path.join(out, "favicon.ico"));
 cpSync(path.join(root, "src/app/icon.png"), path.join(out, "icon.png"));
 cpSync(path.join(root, "src/app/apple-icon.png"), path.join(out, "apple-icon.png"));

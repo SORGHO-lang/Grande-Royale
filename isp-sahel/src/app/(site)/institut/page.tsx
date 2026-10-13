@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { Icon } from "@/components/Icon";
 import { MembreCard, TrustBox } from "@/components/ui/cards";
@@ -18,6 +19,7 @@ export const metadata: Metadata = {
 export default async function InstitutPage() {
   const [p, equipe] = await Promise.all([getParametres(), getEquipe()]);
   const motDg = lignes(p.mot_dg);
+  const fondateur = equipe.find((m) => /OUALI/i.test(m.nom));
 
   const histoire = [
     { annee: "2009", titre: "Autorisation d'ouverture", texte: `Autorisation d'ouverture n° ${SITE.autorisation}.` },
@@ -48,7 +50,17 @@ export default async function InstitutPage() {
 
       <section aria-labelledby="mot-dg" className="container-page mt-16">
         <div className="card grid gap-6 p-6 sm:p-8 md:grid-cols-[auto_1fr]">
-          <span className="inline-flex h-16 w-16 items-center justify-center rounded-full bg-gold text-navy"><Icon name="quote" size={30} /></span>
+          {fondateur?.photo_url ? (
+            <Image
+              src={fondateur.photo_url}
+              alt={`Photo de ${fondateur.nom}, ${fondateur.fonction}`}
+              width={160}
+              height={160}
+              className="h-32 w-32 rounded-full object-cover ring-4 ring-gold sm:h-40 sm:w-40"
+            />
+          ) : (
+            <span className="inline-flex h-16 w-16 items-center justify-center rounded-full bg-gold text-navy"><Icon name="quote" size={30} /></span>
+          )}
           <div className="min-w-0">
             <h2 id="mot-dg" className="text-2xl font-extrabold">Mot du Directeur Général</h2>
             {motDg.length ? (

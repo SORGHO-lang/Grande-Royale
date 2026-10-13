@@ -7,7 +7,7 @@ Tout ce qui n'a pas été fourni est affiché sur le site comme « à compléter
 - [x] **Photo principale de l'accueil** (affiche) pour la page d'accueil → `public/hero/diplomee.jpg`
 - [x] **Photos de la cérémonie** (26 photos en ligne) de remise de diplômes (groupe devant la bannière, remise de diplôme, diplômés et proches) → Admin › Galerie
 - [ ] **Une photo par filière** (5) → Admin › Filières
-- [ ] **Photos de l'équipe** : Dr OUALI Palamanga, Dr OUEDRAOGO Lamini, Dre Ange Patricia ILBOUDOU, Dr Wilfred SAWADOGO → Admin › Équipe
+- [ ] **Photos de l'équipe** : ~~Dr OUALI Palamanga~~ (fournie), Dr OUEDRAOGO Lamini, Dre Ange Patricia ILBOUDOU, Dr Wilfred SAWADOGO → Admin › Équipe
 - [ ] **Logos des partenaires** : ISTM, Université de Fada N'Gourma, HKI, ACF, CRS (+ liens vers leurs sites, et autorisation d'utiliser les logos) → Admin › Partenaires
 
 ## Textes

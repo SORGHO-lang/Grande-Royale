@@ -98,7 +98,8 @@ Pour changer une image, remplacez le fichier **en gardant exactement le même no
 | `filieres/systemes-informatiques.jpg` | Filière ISI |
 | `filieres/informatique-gestion.jpg` | Filière Informatique de Gestion |
 | `filieres/reseaux-telecoms.jpg` | Filière Réseaux & Télécoms |
-| `gallery/ceremonie-groupe.jpg`, `gallery/remise-diplome.jpg`, `gallery/diplomes-proches.jpg` | Photos de la cérémonie |
+| `gallery/ceremonie-01.jpg` … `ceremonie-26.jpg` | Photos de la galerie |
+| `equipe/ouali-palamanga.jpg` | Photo du Fondateur & Directeur Général (carrée) |
 
 Conseil : réduisez les photos à **1600 pixels de large maximum** avant de les envoyer (le site restera rapide sur téléphone).
 Après un remplacement, faites **Ctrl + F5** sur le site pour voir la nouvelle image.

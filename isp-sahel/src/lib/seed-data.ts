@@ -484,7 +484,7 @@ export const SEED_GALERIE: GaleriePhoto[] = [
 ];
 
 export const SEED_EQUIPE: MembreEquipe[] = [
-  { id: id(601), nom: "Dr OUALI Palamanga", fonction: "Fondateur & Directeur Général", photo_url: null, bio: null, ordre: 1, publie: true },
+  { id: id(601), nom: "Dr OUALI Palamanga", fonction: "Fondateur & Directeur Général", photo_url: "/equipe/ouali-palamanga.jpg", bio: null, ordre: 1, publie: true },
   { id: id(602), nom: "Dr OUEDRAOGO Lamini", fonction: "Directeur académique", photo_url: null, bio: null, ordre: 2, publie: true },
   { id: id(603), nom: "Dre Ange Patricia ILBOUDOU", fonction: "Responsable de la filière Génie civil", photo_url: null, bio: null, ordre: 3, publie: true },
   { id: id(604), nom: "Dr Wilfred SAWADOGO", fonction: "Responsable de la filière Informatique", photo_url: null, bio: null, ordre: 4, publie: true },
