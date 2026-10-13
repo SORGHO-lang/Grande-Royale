@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { formatDate, initiales } from "@/lib/format";
+import { formatDate, initiales, typoFr } from "@/lib/format";
 import { SITE } from "@/lib/site";
 import type { Article, Filiere, MembreEquipe, Parametres, Partenaire, Temoignage } from "@/lib/types";
 import { Icon } from "../Icon";
@@ -93,7 +93,7 @@ export function TemoignageCard({ t }: { t: Temoignage }) {
       <Icon name="quote" size={28} className="text-gold" />
       <blockquote className="mt-3 flex-1">
         {complet ? (
-          <p className="text-[0.98rem] leading-relaxed">« {t.texte} »</p>
+          <p className="text-[0.98rem] leading-relaxed">{typoFr(`« ${t.texte} »`)}</p>
         ) : (
           <p className="italic text-muted">Témoignage à venir</p>
         )}

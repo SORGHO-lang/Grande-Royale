@@ -67,9 +67,9 @@ describe("données officielles (§2 du cahier des charges)", () => {
     expect(SEED_PARAMETRES.stat_etudiants).toBe("1 712");
     expect(SEED_FILIERES).toHaveLength(5);
   });
-  it("n'invente aucune citation de témoignage", () => {
+  it("publie les 4 témoignages validés par les personnes concernées", () => {
     expect(SEED_TEMOIGNAGES.map((t) => t.nom)).toEqual(["LOMPO Ezekiel", "Georges Kabré", "SANOU Rosine", "Diallo Fadima"]);
-    expect(SEED_TEMOIGNAGES.every((t) => t.texte === null)).toBe(true);
+    expect(SEED_TEMOIGNAGES.every((t) => t.texte && /promotion 2026$/.test(t.fonction ?? ""))).toBe(true);
   });
 });
 

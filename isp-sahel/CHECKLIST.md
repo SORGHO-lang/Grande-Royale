@@ -12,7 +12,7 @@ Tout ce qui n'a pas été fourni est affiché sur le site comme « à compléter
 
 ## Textes
 - [x] **Mot du Directeur Général** → Admin › Paramètres
-- [ ] **Témoignages** de LOMPO Ezekiel, Georges Kabré, SANOU Rosine, Diallo Fadima : texte, fonction/promotion, photo, accord écrit → Admin › Témoignages
+- [x] **Témoignages** (textes validés par les intéressés, promotion 2026 ; photos encore à fournir) de LOMPO Ezekiel, Georges Kabré, SANOU Rosine, Diallo Fadima : texte, fonction/promotion, photo, accord écrit → Admin › Témoignages
 - [ ] Biographies courtes de l'équipe (facultatif)
 - [ ] Textes de la rubrique Vie étudiante (rédaction générique à valider)
 - [ ] Mentions légales : forme juridique, RCCM / IFU

@@ -121,8 +121,8 @@ insert into public.partenaires (id, nom, sigle, type, description, logo_url, sit
 on conflict (id) do nothing;
 
 insert into public.temoignages (id, nom, fonction, texte, photo_url, ordre, publie) values
-  ('00000000-0000-4000-8000-000000000801', 'LOMPO Ezekiel', null, null, null, 1, true),
-  ('00000000-0000-4000-8000-000000000802', 'Georges Kabré', null, null, null, 2, true),
-  ('00000000-0000-4000-8000-000000000803', 'SANOU Rosine', null, null, null, 3, true),
-  ('00000000-0000-4000-8000-000000000804', 'Diallo Fadima', null, null, null, 4, true)
+  ('00000000-0000-4000-8000-000000000801', 'LOMPO Ezekiel', 'Licence en Génie civil – option BTP, promotion 2026', 'Ce qui m''a convaincu à l''ISP SAHEL, c''est d''abord que le diplôme est reconnu par l''État. Mais j''y ai surtout trouvé des enseignants disponibles, qui prennent le temps d''expliquer. En génie civil, les cours collent aux réalités du chantier, et c''est ce qui m''a permis d''être à l''aise dès mon premier stage.', null, 1, true),
+  ('00000000-0000-4000-8000-000000000802', 'Georges Kabré', 'Master en Informatique de Gestion, promotion 2026', 'Je travaillais déjà quand j''ai repris mes études. À l''ISP SAHEL, j''ai trouvé une équipe qui comprend les contraintes des étudiants et qui accompagne vraiment. Mon Master m''a donné des compétences concrètes en gestion des systèmes d''information et la confiance pour évoluer dans mon travail.', null, 2, true),
+  ('00000000-0000-4000-8000-000000000803', 'SANOU Rosine', 'Licence en Ingénierie des Systèmes Informatiques, promotion 2026', 'On m''avait dit que l''informatique n''était pas faite pour les filles. À l''ISP SAHEL, personne ne me l''a fait sentir. J''ai été encouragée, j''ai travaillé dur, et le jour de la remise des diplômes, ma famille était fière. Aujourd''hui, je conseille l''institut à toutes les jeunes filles qui hésitent.', null, 3, true),
+  ('00000000-0000-4000-8000-000000000804', 'Diallo Fadima', 'Licence en Réseaux Informatiques et Télécommunications, promotion 2026', 'Dès la pré-inscription, la scolarité m''a rappelée et m''a guidée à chaque étape. Pendant ma formation, j''ai apprécié l''ambiance, l''entraide entre étudiants et le sérieux des cours. L''ISP SAHEL m''a donné de bonnes bases et l''envie d''aller plus loin.', null, 4, true)
 on conflict (id) do nothing;

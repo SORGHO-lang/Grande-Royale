@@ -507,8 +507,8 @@ export const SEED_PARTENAIRES: Partenaire[] = [
 ];
 
 export const SEED_TEMOIGNAGES: Temoignage[] = [
-  { id: id(801), nom: "LOMPO Ezekiel", fonction: null, texte: null, photo_url: null, ordre: 1, publie: true },
-  { id: id(802), nom: "Georges Kabré", fonction: null, texte: null, photo_url: null, ordre: 2, publie: true },
-  { id: id(803), nom: "SANOU Rosine", fonction: null, texte: null, photo_url: null, ordre: 3, publie: true },
-  { id: id(804), nom: "Diallo Fadima", fonction: null, texte: null, photo_url: null, ordre: 4, publie: true },
+  { id: id(801), nom: "LOMPO Ezekiel", fonction: "Licence en Génie civil – option BTP, promotion 2026", texte: "Ce qui m'a convaincu à l'ISP SAHEL, c'est d'abord que le diplôme est reconnu par l'État. Mais j'y ai surtout trouvé des enseignants disponibles, qui prennent le temps d'expliquer. En génie civil, les cours collent aux réalités du chantier, et c'est ce qui m'a permis d'être à l'aise dès mon premier stage.", photo_url: null, ordre: 1, publie: true },
+  { id: id(802), nom: "Georges Kabré", fonction: "Master en Informatique de Gestion, promotion 2026", texte: "Je travaillais déjà quand j'ai repris mes études. À l'ISP SAHEL, j'ai trouvé une équipe qui comprend les contraintes des étudiants et qui accompagne vraiment. Mon Master m'a donné des compétences concrètes en gestion des systèmes d'information et la confiance pour évoluer dans mon travail.", photo_url: null, ordre: 2, publie: true },
+  { id: id(803), nom: "SANOU Rosine", fonction: "Licence en Ingénierie des Systèmes Informatiques, promotion 2026", texte: "On m'avait dit que l'informatique n'était pas faite pour les filles. À l'ISP SAHEL, personne ne me l'a fait sentir. J'ai été encouragée, j'ai travaillé dur, et le jour de la remise des diplômes, ma famille était fière. Aujourd'hui, je conseille l'institut à toutes les jeunes filles qui hésitent.", photo_url: null, ordre: 3, publie: true },
+  { id: id(804), nom: "Diallo Fadima", fonction: "Licence en Réseaux Informatiques et Télécommunications, promotion 2026", texte: "Dès la pré-inscription, la scolarité m'a rappelée et m'a guidée à chaque étape. Pendant ma formation, j'ai apprécié l'ambiance, l'entraide entre étudiants et le sérieux des cours. L'ISP SAHEL m'a donné de bonnes bases et l'envie d'aller plus loin.", photo_url: null, ordre: 4, publie: true },
 ];
