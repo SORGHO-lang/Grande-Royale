@@ -99,7 +99,6 @@ async function ico(svg) {
 
 const SUB = "Photo à remplacer";
 const photos = [
-  ["hero/diplomee.jpg", { w: 1200, h: 1400, from: "#0a9de0", to: "#0d2a6b", title: "Diplômée ISP SAHEL", subtitle: SUB, motif: "graduate" }],
   ["filieres/genie-civil-btp.jpg", { w: 1200, h: 750, from: "#14409a", to: "#0d2a6b", title: "Génie civil – BTP", subtitle: SUB, motif: "building" }],
   ["filieres/geometre-topographie.jpg", { w: 1200, h: 750, from: "#1e9a3c", to: "#0d2a6b", title: "Géomètre Topographie", subtitle: SUB, motif: "map" }],
   ["filieres/systemes-informatiques.jpg", { w: 1200, h: 750, from: "#0a9de0", to: "#14409a", title: "Systèmes Informatiques", subtitle: SUB, motif: "code" }],

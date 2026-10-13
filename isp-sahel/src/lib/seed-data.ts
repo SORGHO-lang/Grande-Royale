@@ -222,7 +222,7 @@ export const SEED_ARTICLES: Article[] = [
       "<h2>Comment s'inscrire ?</h2>",
       "<p>Remplissez le formulaire de pré-inscription en ligne, appelez-nous au <strong>+226 50 39 33 33</strong> / <strong>+226 07 33 33 37</strong> ou écrivez-nous sur WhatsApp. Notre scolarité vous rappelle pour la suite de votre dossier.</p>",
     ].join(""),
-    image_url: "/hero/diplomee.jpg",
+    image_url: "/gallery/ceremonie-02.jpg",
     categorie_id: id(201),
     statut: "publie",
     publie_le: "2026-10-01T08:00:00Z",

@@ -65,9 +65,9 @@ export default async function HomePage() {
             <div className="absolute -inset-3 rotate-3 rounded-[2rem] bg-gold/90" aria-hidden="true" />
             <Image
               src="/hero/diplomee.jpg"
-              alt="Une diplômée de l'ISP SAHEL en toge bleue et étole jaune"
-              width={1200}
-              height={1400}
+              alt="Remise d'un diplôme de Master professionnel à un diplômé de l'ISP SAHEL en toge bleue et étole jaune"
+              width={731}
+              height={853}
               sizes="(min-width: 1024px) 28rem, (min-width: 640px) 24rem, 90vw"
               className="relative aspect-[6/7] w-full rounded-[1.75rem] object-cover shadow-2xl"
               priority
