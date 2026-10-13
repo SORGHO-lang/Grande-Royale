@@ -158,9 +158,7 @@ Les fichiers suivants sont des **visuels générés provisoirement** (mention «
 
 | Fichier | À remplacer par |
 | --- | --- |
-| `public/filieres/*.jpg` | Une photo par filière (~1200 × 750) |
-
-Déjà remplacés par les visuels officiels : logo (`public/brand/logo.png` et icônes dérivées dans `src/app/`), photo d'accueil (`public/hero/diplomee.jpg`) et galerie (`public/gallery/ceremonie-*.jpg`, 26 photos).
+Tous les visuels provisoires ont été remplacés par ceux fournis par l'établissement : logo (`public/brand/logo.png` et icônes dérivées dans `src/app/`), photo d'accueil (`public/hero/diplomee.jpg`), photos des 5 filières (`public/filieres/*.jpg`), galerie (`public/gallery/ceremonie-*.jpg`, 26 photos) et photos de l'équipe (`public/equipe/*.jpg`).
 
 Voir aussi **[CHECKLIST.md](./CHECKLIST.md)** : liste des éléments à fournir par l'établissement.
 

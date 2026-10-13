@@ -100,11 +100,6 @@ async function ico(svg) {
 
 const SUB = "Photo à remplacer";
 const photos = [
-  ["filieres/genie-civil-btp.jpg", { w: 1200, h: 750, from: "#14409a", to: "#0d2a6b", title: "Génie civil – BTP", subtitle: SUB, motif: "building" }],
-  ["filieres/geometre-topographie.jpg", { w: 1200, h: 750, from: "#1e9a3c", to: "#0d2a6b", title: "Géomètre Topographie", subtitle: SUB, motif: "map" }],
-  ["filieres/systemes-informatiques.jpg", { w: 1200, h: 750, from: "#0a9de0", to: "#14409a", title: "Systèmes Informatiques", subtitle: SUB, motif: "code" }],
-  ["filieres/informatique-gestion.jpg", { w: 1200, h: 750, from: "#14409a", to: "#1e9a3c", title: "Informatique de Gestion", subtitle: SUB, motif: "chart" }],
-  ["filieres/reseaux-telecoms.jpg", { w: 1200, h: 750, from: "#0d2a6b", to: "#0a9de0", title: "Réseaux &amp; Télécoms", subtitle: SUB, motif: "network" }],
 ];
 
 for (const [rel, opts] of photos) await write(rel, await jpg(photoSvg(opts)));

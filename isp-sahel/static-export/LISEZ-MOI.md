@@ -85,8 +85,7 @@ Formats acceptés : PDF (conseillé), Word, Excel, PowerPoint, ZIP, CSV, TXT.
 
 ## 6. Remplacer les photos et le logo
 
-Le logo, la photo de l'accueil et la galerie sont déjà les visuels officiels.
-Les **photos des filières** sont encore **provisoires** (marquées « Photo à remplacer »).
+Toutes les images du site sont les visuels officiels de l'établissement.
 Pour changer une image, remplacez le fichier **en gardant exactement le même nom** :
 
 | Fichier | Photo à mettre |
