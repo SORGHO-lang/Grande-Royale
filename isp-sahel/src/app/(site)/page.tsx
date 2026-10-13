@@ -39,20 +39,21 @@ export default async function HomePage() {
   return (
     <>
       {/* 1. Hero */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-[var(--hero-from)] to-[var(--hero-to)] pb-16 text-white">
-        <div className="pointer-events-none absolute -left-20 top-10 h-72 w-72 rounded-full bg-sky/20 blur-2xl" aria-hidden="true" />
+      <section className="fx-gradient relative overflow-hidden bg-gradient-to-br from-[var(--hero-from)] to-[var(--hero-to)] pb-16 text-white">
+        <div className="fx-blob pointer-events-none absolute -left-20 top-10 h-72 w-72 rounded-full bg-sky/20 blur-2xl" aria-hidden="true" />
+        <div className="fx-blob pointer-events-none absolute -right-16 bottom-10 h-60 w-60 rounded-full bg-gold/15 blur-2xl [animation-delay:-6s]" aria-hidden="true" />
         <div className="container-page relative grid items-center gap-8 pt-8 sm:pt-12 lg:grid-cols-[1.15fr_1fr] lg:gap-12 lg:pt-16">
           <div>
-            <div className="flex items-center gap-3">
+            <div className="fx-up flex items-center gap-3">
               <Image src={SITE.logo} alt="Logo de l'ISP SAHEL" width={72} height={72} className="h-16 w-16 rounded-full shadow-lg sm:h-[72px] sm:w-[72px]" priority />
               <span className="badge badge-gold"><Icon name="shield" size={16} /> {SITE.mentionCle}</span>
             </div>
-            <h1 className="mt-5 text-[2rem] font-extrabold leading-[1.1] sm:text-5xl lg:text-[3.4rem]">
+            <h1 className="fx-up mt-5 text-[2rem] font-extrabold leading-[1.1] sm:text-5xl lg:text-[3.4rem]" style={{ "--d": "120ms" } as React.CSSProperties}>
               Institut Supérieur Privé <span className="text-gold">du Sahel</span>
             </h1>
-            <p className="mt-4 max-w-xl text-lg text-white/90 sm:text-xl">{SITE.accroche}</p>
-            <p className="mt-3 text-sm font-semibold tracking-wide text-white/75">{SITE.slogan}</p>
-            <div className="mt-7 flex flex-col gap-3 sm:flex-row">
+            <p className="fx-up mt-4 max-w-xl text-lg text-white/90 sm:text-xl" style={{ "--d": "240ms" } as React.CSSProperties}>{SITE.accroche}</p>
+            <p className="fx-up mt-3 text-sm font-semibold tracking-wide text-white/75" style={{ "--d": "320ms" } as React.CSSProperties}>{SITE.slogan}</p>
+            <div className="fx-up mt-7 flex flex-col gap-3 sm:flex-row" style={{ "--d": "420ms" } as React.CSSProperties}>
               <Link href="/scolarite" className="btn btn-accent text-base">
                 Scolarité &amp; inscription <Icon name="arrow" size={18} />
               </Link>
@@ -61,7 +62,7 @@ export default async function HomePage() {
               </a>
             </div>
           </div>
-          <div className="relative mx-auto w-full max-w-sm lg:max-w-md">
+          <div className="fx-up fx-float relative mx-auto w-full max-w-sm lg:max-w-md" style={{ "--d": "300ms" } as React.CSSProperties}>
             <div className="absolute -inset-3 rotate-3 rounded-[2rem] bg-gold/90" aria-hidden="true" />
             <Image
               src="/hero/diplomee.jpg"

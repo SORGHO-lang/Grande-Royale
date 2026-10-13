@@ -164,11 +164,11 @@ export function StatsBand({ p }: { p: Parametres }) {
               {s.prefix ? (
                 <>
                   <span className="mt-1 text-sm text-muted">{s.label}</span>
-                  <span className="text-2xl font-extrabold text-link sm:text-3xl">{s.valeur}</span>
+                  <span className="text-2xl font-extrabold text-link sm:text-3xl" data-count="annee">{s.valeur}</span>
                 </>
               ) : (
                 <>
-                  <span className="mt-1 text-2xl font-extrabold text-link sm:text-3xl">{s.valeur}</span>
+                  <span className="mt-1 text-2xl font-extrabold text-link sm:text-3xl" data-count="">{s.valeur}</span>
                   <span className="text-sm text-muted">{s.label}</span>
                 </>
               )}

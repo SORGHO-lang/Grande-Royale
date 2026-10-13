@@ -1,3 +1,4 @@
+import Script from "next/script";
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
 import { WhatsAppFloat } from "@/components/layout/WhatsAppFloat";
@@ -34,11 +35,12 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
     <>
       <JsonLd data={org} />
       <Header telephone={p.telephone_1} />
-      <main id="contenu" tabIndex={-1} className="outline-none">
+      <main id="contenu" tabIndex={-1} className="outline-none" data-reveal>
         {children}
       </main>
       <Footer p={p} />
       <WhatsAppFloat numero={p.whatsapp} />
+      <Script src="/anim.js" strategy="afterInteractive" />
     </>
   );
 }

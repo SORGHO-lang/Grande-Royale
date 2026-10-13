@@ -4,6 +4,7 @@
 @custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
 
 :root {
+  --ease-out: cubic-bezier(0.22, 0.8, 0.24, 1);
   /* Charte ISP SAHEL */
   --brand: #14409a;
   --navy: #0d2a6b;
@@ -121,16 +122,53 @@ body {
     font-weight: 600;
     line-height: 1.2;
     text-align: center;
-    transition: background-color 0.15s, color 0.15s, border-color 0.15s, transform 0.15s;
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+    transition: transform 0.3s var(--ease-out), box-shadow 0.3s var(--ease-out), background-color 0.2s, background-size 0.4s var(--ease-out), color 0.2s, border-color 0.2s;
   }
-  .btn:active { transform: translateY(1px); }
+  /* Reflet lumineux qui balaie le bouton au survol */
+  .btn::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(110deg, transparent 25%, rgba(255, 255, 255, 0.45) 50%, transparent 75%);
+    transform: translateX(-130%);
+    transition: transform 0.75s var(--ease-out);
+    pointer-events: none;
+  }
+  .btn:hover::before { transform: translateX(130%); }
+  .btn:hover { transform: translateY(-2px); box-shadow: 0 12px 24px -10px rgba(13, 42, 107, 0.55); }
+  .btn:active { transform: translateY(0) scale(0.97); box-shadow: none; }
+  .btn svg { transition: transform 0.3s var(--ease-out); }
+  .btn:hover > svg:last-child:not(:first-child) { transform: translateX(4px); }
+  .btn[aria-disabled="true"]:hover, .btn:disabled:hover { transform: none; box-shadow: none; }
+  .btn[aria-disabled="true"]::before, .btn:disabled::before { display: none; }
+  /* Onde au clic (créée par anim.js) */
+  .btn .ripple {
+    position: absolute;
+    z-index: -1;
+    border-radius: 9999px;
+    background: currentColor;
+    opacity: 0.25;
+    transform: scale(0);
+    animation: ripple 0.65s var(--ease-out) forwards;
+    pointer-events: none;
+  }
   .btn-primary { background: var(--primary); color: var(--on-primary); }
   .btn-primary:hover { background: var(--primary-hover); }
   .btn-accent { background: var(--gold); color: var(--navy); }
   .btn-accent:hover { background: #ffcb2e; }
-  .btn-outline { border: 2px solid var(--primary); color: var(--link); background: transparent; }
+  /* Contour : la couleur remplit le bouton en glissant au survol */
+  .btn-outline {
+    border: 2px solid var(--primary);
+    color: var(--link);
+    background: linear-gradient(var(--primary), var(--primary)) no-repeat left / 0% 100%;
+  }
   [data-theme="dark"] .btn-outline { border-color: var(--line); color: var(--fg); }
-  .btn-outline:hover { background: var(--surface-2); }
+  .btn-outline:hover { background-size: 100% 100%; color: var(--on-primary); border-color: var(--primary); }
+  .btn-outline[aria-disabled="true"]:hover { background-size: 0% 100%; color: var(--link); }
   .btn-light { border: 2px solid rgba(255,255,255,.75); color: #fff; }
   .btn-light:hover { background: rgba(255,255,255,.12); }
   .btn[aria-disabled="true"], .btn:disabled { opacity: .6; cursor: not-allowed; }
@@ -139,6 +177,13 @@ body {
     background: var(--surface);
     border: 1px solid var(--line);
     border-radius: 1rem;
+    transition: transform 0.4s var(--ease-out), box-shadow 0.4s var(--ease-out), border-color 0.3s, background-color 0.3s;
+  }
+  /* Les cartes cliquables se soulèvent au survol */
+  a.card:hover, .card:has(a):hover, .card:has(button):hover {
+    transform: translateY(-6px);
+    box-shadow: 0 22px 40px -22px rgba(13, 42, 107, 0.45);
+    border-color: color-mix(in srgb, var(--primary) 35%, var(--line));
   }
 
   .badge {
@@ -195,4 +240,68 @@ body {
   .prose-content blockquote { border-left: 4px solid var(--gold); padding-left: 1rem; color: var(--muted); font-style: italic; }
   .prose-content img { border-radius: 0.75rem; max-width: 100%; height: auto; }
   .prose-content strong { font-weight: 700; }
+}
+
+/* ════════════════════════════════════════════════════════════════════
+   Animations
+   ════════════════════════════════════════════════════════════════════ */
+/* Sans opacité : le contenu reste lisible (et mesuré comme tel) pendant l'animation */
+@keyframes fx-fade-up { from { transform: translateY(28px); filter: blur(8px); } to { transform: none; filter: none; } }
+@keyframes fx-float { 0%, 100% { translate: 0 0; } 50% { translate: 0 -12px; } }
+@keyframes fx-gradient { 0%, 100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
+@keyframes fx-blob {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(40px, -30px) scale(1.12); }
+  66% { transform: translate(-30px, 25px) scale(0.92); }
+}
+@keyframes fx-pulse { 0% { box-shadow: 0 0 0 0 rgba(21, 122, 58, 0.55); } 75%, 100% { box-shadow: 0 0 0 18px rgba(21, 122, 58, 0); } }
+@keyframes ripple { to { transform: scale(4); opacity: 0; } }
+@keyframes fx-reveal-safety { to { transform: none; filter: none; } }
+
+/* Entrée en cascade (accueil et bandeaux de titre) */
+.fx-up { animation: fx-fade-up 0.9s var(--ease-out) both; animation-delay: var(--d, 0ms); }
+.fx-float { animation: fx-fade-up 0.9s var(--ease-out) both, fx-float 7s ease-in-out 1.2s infinite; animation-delay: var(--d, 0ms), 1.2s; }
+.fx-gradient { background-size: 200% 200%; animation: fx-gradient 18s ease-in-out infinite; }
+.fx-blob { animation: fx-blob 16s ease-in-out infinite; }
+
+/* Bouton WhatsApp qui « respire » */
+.wa-float { animation: fx-pulse 2.6s ease-out infinite; transition: transform 0.3s var(--ease-out); }
+.wa-float:hover { transform: translateY(-3px) scale(1.04); }
+
+/* En-tête : ombre quand on fait défiler */
+header.sticky { transition: box-shadow 0.3s, background-color 0.3s; }
+header.is-scrolled { box-shadow: 0 10px 30px -14px rgba(13, 42, 107, 0.35); }
+header nav a { transition: background-color 0.25s, color 0.25s; }
+
+/* Barre de progression de lecture */
+.scroll-progress {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 60;
+  height: 3px;
+  background: linear-gradient(90deg, var(--gold), var(--sky), var(--green));
+  transform: scaleX(var(--progress, 0));
+  transform-origin: left;
+  pointer-events: none;
+}
+
+/* Apparition au défilement (activée seulement si JavaScript tourne : classe .anim) */
+.anim [data-reveal] :is(section h2, section .eyebrow, .card, ol > li, figure, table, details, .prose-content > *, blockquote, [data-count]):not(.reveal-done) {
+  transition: transform 0.9s var(--ease-out), filter 0.9s var(--ease-out);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+.anim [data-reveal] :is(section h2, section .eyebrow, .card, ol > li, figure, table, details, .prose-content > *, blockquote, [data-count]):not(.is-visible) {
+  transform: translateY(36px);
+  filter: blur(6px);
+  /* Filet de sécurité : tout s'affiche après 3 s même si le script échoue */
+  animation: fx-reveal-safety 0.6s 3s forwards;
+}
+
+/* Transitions douces au changement de thème */
+body { transition: background-color 0.35s, color 0.35s; }
+
+@media (prefers-reduced-motion: reduce) {
+  .anim [data-reveal] * { transform: none !important; filter: none !important; }
+  .fx-up, .fx-float, .fx-gradient, .fx-blob, .wa-float { animation: none !important; }
+  .btn::before, .scroll-progress { display: none; }
 }

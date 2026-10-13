@@ -19,9 +19,9 @@ export function PageHeader({
 }) {
   const trail: Crumb[] = [{ href: "/", label: "Accueil" }, ...crumbs];
   return (
-    <section className="relative overflow-hidden bg-gradient-to-br from-[var(--hero-from)] to-[var(--hero-to)] text-white">
-      <div className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-gold/15" aria-hidden="true" />
-      <div className="pointer-events-none absolute -bottom-32 left-1/3 h-64 w-64 rounded-full bg-sky/15" aria-hidden="true" />
+    <section className="fx-gradient relative overflow-hidden bg-gradient-to-br from-[var(--hero-from)] to-[var(--hero-to)] text-white">
+      <div className="fx-blob pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-gold/15" aria-hidden="true" />
+      <div className="fx-blob pointer-events-none absolute -bottom-32 [animation-delay:-8s] left-1/3 h-64 w-64 rounded-full bg-sky/15" aria-hidden="true" />
       <div className="container-page relative py-10 sm:py-14">
         <nav aria-label="Fil d'Ariane">
           <ol className="flex flex-wrap items-center gap-1 text-sm text-white/85">
@@ -36,8 +36,8 @@ export function PageHeader({
             </li>
           </ol>
         </nav>
-        <h1 className="mt-3 max-w-3xl text-3xl font-extrabold leading-tight sm:text-4xl lg:text-5xl">{title}</h1>
-        {intro ? <div className="mt-3 max-w-2xl text-base text-white/90 sm:text-lg">{intro}</div> : null}
+        <h1 className="fx-up mt-3 max-w-3xl text-3xl font-extrabold leading-tight sm:text-4xl lg:text-5xl">{title}</h1>
+        {intro ? <div className="fx-up mt-3 max-w-2xl text-base text-white/90 sm:text-lg" style={{ "--d": "120ms" } as React.CSSProperties}>{intro}</div> : null}
         {children}
       </div>
       <JsonLd

@@ -50,7 +50,7 @@ export const viewport: Viewport = {
   ],
 };
 
-const themeScript = `try{if(localStorage.getItem("theme")==="dark")document.documentElement.dataset.theme="dark"}catch(e){}`;
+const themeScript = `document.documentElement.classList.add("anim");try{if(localStorage.getItem("theme")==="dark")document.documentElement.dataset.theme="dark"}catch(e){}`;
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (

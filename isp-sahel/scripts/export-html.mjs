@@ -8,7 +8,8 @@
  *
  * Le dossier produit se dépose tel quel dans public_html.
  */
-import { cpSync, existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { cpSync, existsSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import sharp from "sharp";
 import path from "node:path";
 
 const root = path.resolve(import.meta.dirname, "..");
@@ -37,8 +38,10 @@ if (existsSync(out)) {
 mkdirSync(out, { recursive: true });
 
 // ─── 2. Ressources fixes ───────────────────────────────────────────────
-for (const dir of ["brand", "hero", "filieres", "gallery", "equipe", "partenaires"]) cpSync(path.join(root, "public", dir), path.join(out, dir), { recursive: true });
+const IMAGE_DIRS = ["brand", "hero", "filieres", "gallery", "equipe", "partenaires"];
+for (const dir of IMAGE_DIRS) cpSync(path.join(root, "public", dir), path.join(out, dir), { recursive: true });
 cpSync(path.join(root, "src/app/favicon.ico"), path.join(out, "favicon.ico"));
+cpSync(path.join(root, "public/anim.js"), path.join(out, "anim.js"));
 cpSync(path.join(root, "src/app/icon.png"), path.join(out, "icon.png"));
 cpSync(path.join(root, "src/app/apple-icon.png"), path.join(out, "apple-icon.png"));
 writeFileSync(path.join(out, "og.png"), Buffer.from(await (await get("/opengraph-image")).arrayBuffer()));
@@ -49,6 +52,17 @@ if (existsSync(path.join(root, ".export-keep"))) {
 }
 
 // ─── 3. Transformation du HTML ─────────────────────────────────────────
+// Largeur d'origine de chaque image, pour générer des variantes WebP adaptées.
+const BUCKETS = [128, 256, 640, 1080, 1600];
+const imageWidths = new Map();
+const variants = new Map();
+for (const dir of IMAGE_DIRS) {
+  for (const f of readdirSync(path.join(root, "public", dir))) {
+    if (!/\.(jpe?g|png)$/i.test(f)) continue;
+    imageWidths.set(`/${dir}/${f}`, (await sharp(path.join(root, "public", dir, f)).metadata()).width);
+  }
+}
+
 let cssHref = null;
 const decode = (s) => s.replace(/&amp;/g, "&");
 
@@ -64,9 +78,27 @@ async function transform(html) {
   html = html.replace(/<link[^>]+(\/_next\/static\/chunks|as="script"|as="image")[^>]*\/?>/g, "");
   html = html.replace(/<meta name="next-size-adjust"[^>]*\/?>/g, "");
   // Thème + script du site
-  html = html.replace("</head>", '<script src="/assets/js/theme.js"></script><script src="/assets/js/site.js" defer></script></head>');
-  // Images optimisées Next → fichiers d'origine
-  html = html.replace(/\s(?:srcSet|srcset)="[^"]*"/g, "").replace(/\ssizes="[^"]*"/g, "");
+  html = html.replace("</head>", '<script src="/assets/js/theme.js"></script><script src="/assets/js/site.js" defer></script><script src="/anim.js" defer></script></head>');
+  // Images : variantes WebP redimensionnées (srcset) + fichier d'origine en secours (src)
+  html = html.replace(/\s(?:srcSet|srcset)="([^"]*)"/g, (_, set) => {
+    const seen = new Set();
+    const out = [];
+    for (const cand of decode(set).split(/,\s*/)) {
+      const m = /^\/_next\/image\?url=([^&]+)&w=(\d+)\S*\s+(\S+)$/.exec(cand.trim());
+      if (!m) continue;
+      const file = decodeURIComponent(m[1]);
+      const orig = imageWidths.get(file);
+      if (!orig) continue;
+      const bucket = BUCKETS.find((b) => b >= Number(m[2])) ?? BUCKETS[BUCKETS.length - 1];
+      const width = Math.min(bucket, orig);
+      const url = `/img/${width}${file.replace(/\.(jpe?g|png)$/i, ".webp")}`;
+      if (seen.has(url)) continue;
+      seen.add(url);
+      variants.set(url, { file, width });
+      out.push(m[3].endsWith("w") ? `${url} ${width}w` : `${url} ${m[3]}`);
+    }
+    return out.length ? ` srcset="${out.join(", ")}"` : "";
+  });
   html = html.replace(/\/_next\/image\?url=([^&"]+)[^"]*/g, (_, u) => decodeURIComponent(decode(u)));
   // Icônes et image de partage (URL avec empreinte)
   html = html.replace(/\/icon\.png\?[^"]*/g, "/icon.png").replace(/\/apple-icon\.png\?[^"]*/g, "/apple-icon.png");
@@ -121,6 +153,14 @@ for (const p of pages) {
   writeFileSync(dest(p), html);
 }
 writeFileSync(path.join(out, "404.html"), await transform(await (await get("/page-inexistante")).text()));
+
+// ─── 3 bis. Génération des variantes WebP ──────────────────────────────
+for (const [url, { file, width }] of variants) {
+  const dest = path.join(out, url);
+  mkdirSync(path.dirname(dest), { recursive: true });
+  await sharp(path.join(root, "public", file)).resize({ width, withoutEnlargement: true }).webp({ quality: 76 }).toFile(dest);
+}
+console.log(`${variants.size} variantes d'images WebP générées`);
 
 // ─── 4. CSS, flux RSS, sitemap, robots ─────────────────────────────────
 mkdirSync(path.join(out, "assets/css"), { recursive: true });
