@@ -35,7 +35,15 @@ export const SEED_PARAMETRES: Parametres = {
   frais_licence: "350 000 F CFA",
   frais_master: "600 000 F CFA",
   annee_academique: "2026-2027",
-  mot_dg: "",
+  mot_dg: [
+    "« Former aujourd’hui les compétences qui bâtiront l'Afrique Faso de demain. »",
+    "Chers étudiants, chers partenaires,",
+    "L’éducation n’est pas une simple transmission de connaissances : elle est une force qui transforme les destins, révèle les talents et construit les nations.",
+    "À l’ISP SAHEL, notre ambition est claire : faire de chaque étudiant une compétence, de chaque talent une opportunité et de chaque diplôme un levier d’avenir.",
+    "Nous croyons en une formation d’excellence, ancrée dans les réalités de nos pays et tournée vers les exigences du monde professionnel. Notre engagement est de former des femmes et des hommes compétents, responsables, audacieux et capables de contribuer au développement du Burkina Faso et de l’Afrique.",
+    "À l’ISP SAHEL, nous ne formons pas seulement pour obtenir un diplôme ; nous formons pour entreprendre, innover et bâtir l’avenir.",
+    "Bienvenue dans une institution où votre ambition prend tout son sens.",
+  ].join("\n"),
   calendrier_academique: [
     "À compléter | Ouverture des pré-inscriptions",
     "À compléter | Dépôt des dossiers à la scolarité",
@@ -65,7 +73,7 @@ export const PARAMETRES_LIBELLES: Record<string, string> = {
   frais_licence: "Frais de scolarité — Licence",
   frais_master: "Frais de scolarité — Master",
   annee_academique: "Année académique en cours",
-  mot_dg: "Mot du Directeur Général (un paragraphe par ligne ; vide = « à compléter »)",
+  mot_dg: "Mot du Fondateur et Directeur Général (un paragraphe par ligne ; une ligne entre « » s'affiche comme citation ; vide = « à compléter »)",
   calendrier_academique: "Calendrier académique (une ligne par étape : « Période | Événement »)",
   pieces_dossier: "Pièces du dossier d'inscription (une pièce par ligne)",
 };

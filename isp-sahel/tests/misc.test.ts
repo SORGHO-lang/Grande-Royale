@@ -72,3 +72,10 @@ describe("données officielles (§2 du cahier des charges)", () => {
     expect(SEED_TEMOIGNAGES.every((t) => t.texte === null)).toBe(true);
   });
 });
+
+describe("typographie française", () => {
+  it("rend insécables les espaces autour des guillemets et avant : ;", async () => {
+    const { typoFr } = await import("@/lib/format");
+    expect(typoFr("« Bonjour » : oui ; non")).toBe("«\u00a0Bonjour\u00a0»\u00a0: oui\u00a0; non");
+  });
+});

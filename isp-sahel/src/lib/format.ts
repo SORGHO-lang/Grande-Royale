@@ -60,3 +60,8 @@ export function extensionDe(nom: string | null | undefined): string {
   const m = /\.([a-z0-9]+)$/i.exec(nom ?? "");
   return m ? m[1].toUpperCase() : "";
 }
+
+/** Typographie française : espaces insécables avant « : ; ! ? » » et après « « ». */
+export function typoFr(texte: string): string {
+  return texte.replace(/ ([:;!?»])/g, "\u00a0$1").replace(/« /g, "«\u00a0");
+}

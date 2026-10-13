@@ -5,7 +5,7 @@ import { Icon } from "@/components/Icon";
 import { MembreCard, TrustBox } from "@/components/ui/cards";
 import { ACompleter, PageHeader, SectionTitle } from "@/components/ui/PageHeader";
 import { getEquipe, getParametres } from "@/lib/data";
-import { lignes } from "@/lib/format";
+import { lignes, typoFr } from "@/lib/format";
 import { SITE } from "@/lib/site";
 
 export const revalidate = 300;
@@ -62,14 +62,24 @@ export default async function InstitutPage() {
             <span className="inline-flex h-16 w-16 items-center justify-center rounded-full bg-gold text-navy"><Icon name="quote" size={30} /></span>
           )}
           <div className="min-w-0">
-            <h2 id="mot-dg" className="text-2xl font-extrabold">Mot du Directeur Général</h2>
+            <h2 id="mot-dg" className="text-2xl font-extrabold">Le mot du Fondateur et Directeur Général</h2>
             {motDg.length ? (
-              <div className="mt-4 space-y-3 text-lg leading-relaxed">{motDg.map((l, i) => <p key={i}>{l}</p>)}</div>
+              <div className="mt-4 space-y-3 text-lg leading-relaxed">
+                {motDg.map((l, i) =>
+                  /^«.*»$/.test(l) ? (
+                    <blockquote key={i} className="border-l-4 border-gold pl-4 text-xl font-semibold italic text-link sm:text-2xl">
+                      {typoFr(l)}
+                    </blockquote>
+                  ) : (
+                    <p key={i}>{typoFr(l)}</p>
+                  ),
+                )}
+              </div>
             ) : (
-              <p className="mt-4"><ACompleter>Mot du Directeur Général à compléter</ACompleter></p>
+              <p className="mt-4"><ACompleter>Mot du Fondateur et Directeur Général à compléter</ACompleter></p>
             )}
-            <p className="mt-5 font-bold">Dr OUALI Palamanga</p>
-            <p className="text-sm text-muted">Fondateur &amp; Directeur Général</p>
+            <p className="mt-6 font-bold">Dr OUALI Palamanga</p>
+            <p className="text-sm text-muted">Fondateur et Directeur Général de l&apos;ISP SAHEL</p>
           </div>
         </div>
       </section>
