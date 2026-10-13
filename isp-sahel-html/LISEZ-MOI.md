@@ -100,6 +100,7 @@ Pour changer une image, remplacez le fichier **en gardant exactement le même no
 | `filieres/reseaux-telecoms.jpg` | Filière Réseaux & Télécoms |
 | `gallery/ceremonie-01.jpg` … `ceremonie-26.jpg` | Photos de la galerie |
 | `equipe/ouali-palamanga.jpg` | Photo du Fondateur & Directeur Général (carrée) |
+| `equipe/ouedraogo-lamini.jpg` | Photo du Directeur académique (carrée) |
 
 Conseil : réduisez les photos à **1600 pixels de large maximum** avant de les envoyer (le site restera rapide sur téléphone).
 Après un remplacement, faites **Ctrl + F5** sur le site pour voir la nouvelle image.

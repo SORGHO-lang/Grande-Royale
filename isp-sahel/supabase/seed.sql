@@ -101,7 +101,7 @@ on conflict (id) do nothing;
 
 insert into public.equipe (id, nom, fonction, photo_url, bio, ordre, publie) values
   ('00000000-0000-4000-8000-000000000601', 'Dr OUALI Palamanga', 'Fondateur & Directeur Général', '/equipe/ouali-palamanga.jpg', null, 1, true),
-  ('00000000-0000-4000-8000-000000000602', 'Dr OUEDRAOGO Lamini', 'Directeur académique', null, null, 2, true),
+  ('00000000-0000-4000-8000-000000000602', 'Dr OUEDRAOGO Lamini', 'Directeur académique', '/equipe/ouedraogo-lamini.jpg', null, 2, true),
   ('00000000-0000-4000-8000-000000000603', 'Dre Ange Patricia ILBOUDOU', 'Responsable de la filière Génie civil', null, null, 3, true),
   ('00000000-0000-4000-8000-000000000604', 'Dr Wilfred SAWADOGO', 'Responsable de la filière Informatique', null, null, 4, true)
 on conflict (id) do nothing;
