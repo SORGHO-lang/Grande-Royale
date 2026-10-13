@@ -36,7 +36,7 @@ export const SEED_PARAMETRES: Parametres = {
   frais_master: "600 000 F CFA",
   annee_academique: "2026-2027",
   mot_dg: [
-    "« Former aujourd’hui les compétences qui bâtiront l'Afrique Faso de demain. »",
+    "« Former aujourd’hui les compétences qui bâtiront l'Afrique de demain. »",
     "Chers étudiants, chers partenaires,",
     "L’éducation n’est pas une simple transmission de connaissances : elle est une force qui transforme les destins, révèle les talents et construit les nations.",
     "À l’ISP SAHEL, notre ambition est claire : faire de chaque étudiant une compétence, de chaque talent une opportunité et de chaque diplôme un levier d’avenir.",
