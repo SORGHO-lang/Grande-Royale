@@ -38,7 +38,13 @@ async function readError(res) {
     const j = JSON.parse(detail);
     detail = j.detail?.message || j.detail?.status || (typeof j.detail === 'string' ? j.detail : JSON.stringify(j.detail ?? j));
   } catch { /* texte brut */ }
-  if (res.status === 401) return 'Clé API refusée par ElevenLabs. Vérifiez-la dans ⚙ Clé API.';
+  if (res.status === 401) {
+    if (/permission/i.test(detail)) return `Votre clé n’a pas le droit d’utiliser le doublage. Sur ElevenLabs, modifiez la clé et activez l’accès « Dubbing ». (Détail : ${detail})`;
+    return `Clé API refusée par ElevenLabs. Vérifiez-la dans ⚙ Clé API. (Détail : ${detail})`;
+  }
+  if (res.status === 402 || /quota|credit|subscription|plan/i.test(detail)) {
+    return `Crédits ou abonnement ElevenLabs insuffisants pour ce doublage. (Détail : ${detail})`;
+  }
   return `ElevenLabs (${res.status}) : ${detail}`;
 }
 
@@ -157,7 +163,8 @@ function openSettings() { $('#settings').showModal(); }
 $('#settingsBtn').onclick = openSettings;
 $('#saveKey').onclick = (e) => {
   e.preventDefault();
-  const key = $('#apiKey').value.trim();
+  // Nettoie les copier-coller : espaces, retours à la ligne, guillemets, « xi-api-key: »
+  const key = $('#apiKey').value.replace(/^\s*(xi-api-key\s*:)?/i, '').replace(/["'\s]/g, '');
   local.set('doublage-ia-key', key);
   $('#apiKey').value = '';
   $('#apiKey').placeholder = key ? '•••••••• (clé enregistrée)' : 'sk_…';
