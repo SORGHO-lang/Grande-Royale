@@ -227,19 +227,50 @@ function audienceCard(a, label, cls) {
   return c;
 }
 
-function asText(r) {
+function asText(r, target) {
   const p = r.public_cible;
   return [
-    `${r.titre} (${r.type_affiche})`, '', r.description, '', `Message principal : ${r.message_principal}`,
+    `${r.titre} (${r.type_affiche})`, '', 'TEXTE DESCRIPTIF', r.description, '', `Message principal : ${r.message_principal}`,
     ...(r.informations_cles.length ? ['', 'Informations clés :', ...r.informations_cles.map((i) => `- ${i.libelle} : ${i.valeur}`)] : []),
     '', `Ton : ${r.ton}`, '', 'PUBLIC CIBLE', p.resume,
     `- Principal : ${p.principal.nom} — ${p.principal.profil}`,
     ...p.secondaires.map((s) => `- Secondaire : ${s.nom} — ${s.profil}`),
     `Âge : ${p.tranche_age}`, `Centres d'intérêt : ${p.centres_interet.join(', ')}`, `Zone : ${p.zone_geographique}`,
     '', 'Conseils :', ...r.conseils.map((c) => `- ${c}`),
-    ...(r.public_vise?.verdict ? ['', 'VOTRE PUBLIC CIBLE', r.public_vise.verdict,
+    ...(r.public_vise?.verdict ? ['', 'VOTRE PUBLIC CIBLE', `Public indiqué : ${target}`, r.public_vise.verdict,
       ...r.public_vise.points_forts.map((x) => `+ ${x}`), ...r.public_vise.a_ameliorer.map((x) => `- À améliorer : ${x}`)] : []),
   ].join('\n');
+}
+
+// ---------- Téléchargement ----------
+function fileName(r, ext) {
+  const base = (r.titre || 'affiche').normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^\w\- ]+/g, '').trim().replace(/\s+/g, '-').toLowerCase();
+  return `analyse-${base || 'affiche'}.${ext}`;
+}
+function download(name, content, type) {
+  const url = URL.createObjectURL(new Blob(['\ufeff', content], { type }));
+  const a = Object.assign(document.createElement('a'), { href: url, download: name });
+  document.body.append(a);
+  a.click();
+  a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 2000);
+}
+const esc = (t) => String(t).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+function asWord(r, target) {
+  const p = r.public_cible, v = r.public_vise;
+  const ul = (items) => (items.length ? `<ul>${items.map((i) => `<li>${esc(i)}</li>`).join('')}</ul>` : '');
+  const aud = (a, label) => `<p><b>${label} : ${esc(a.nom)}</b><br>${esc(a.profil)}<br><i>Pourquoi : ${esc(a.pourquoi)}</i></p>`;
+  return `<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word"><head><meta charset="utf-8"><title>${esc(r.titre)}</title>
+<style>body{font-family:Calibri,Arial,sans-serif;font-size:11pt;line-height:1.4}h1{font-size:20pt;color:#4b2fc9}h2{font-size:14pt;color:#4b2fc9;margin-top:18pt}</style></head><body>
+<h1>${esc(r.titre)}</h1><p><i>${esc(r.type_affiche)} · ton ${esc(r.ton)}</i></p>
+<h2>Texte descriptif</h2><p>${esc(r.description)}</p><p><b>Message principal :</b> ${esc(r.message_principal)}</p>
+${r.informations_cles.length ? `<h2>Informations clés</h2><ul>${r.informations_cles.map((i) => `<li><b>${esc(i.libelle)} :</b> ${esc(i.valeur)}</li>`).join('')}</ul>` : ''}
+<h2>Public cible</h2><p>${esc(p.resume)}</p>${aud(p.principal, 'Public principal')}${p.secondaires.map((x) => aud(x, 'Public secondaire')).join('')}
+<p><b>Âge :</b> ${esc(p.tranche_age)}<br><b>Zone :</b> ${esc(p.zone_geographique)}<br><b>Centres d'intérêt :</b> ${esc(p.centres_interet.join(', '))}</p>
+${v && v.verdict ? `<h2>Votre public cible</h2><p><i>Public indiqué : ${esc(target)}</i></p><p><b>${esc(v.verdict)}</b></p>${v.points_forts.length ? '<p>Ce qui lui parle déjà :</p>' + ul(v.points_forts) : ''}${v.a_ameliorer.length ? '<p>À améliorer :</p>' + ul(v.a_ameliorer) : ''}` : ''}
+<h2>Éléments visuels</h2>${ul(r.elements_visuels)}
+<h2>Conseils pour mieux toucher ce public</h2>${ul(r.conseils)}
+</body></html>`;
 }
 
 function render(r, target) {
@@ -247,7 +278,7 @@ function render(r, target) {
   out.replaceChildren();
   const p = r.public_cible;
 
-  const head = block('', el('h2', '', r.titre), el('p', 'muted', `${r.type_affiche} · ton ${r.ton}`), el('p', '', r.description),
+  const head = block('Texte descriptif', el('h2', '', r.titre), el('p', 'muted', `${r.type_affiche} · ton ${r.ton}`), el('p', '', r.description),
     el('p', '', '« ' + r.message_principal + ' »'));
   const audiences = el('div', 'audiences');
   audiences.append(audienceCard(p.principal, 'Public principal'), ...p.secondaires.map((s) => audienceCard(s, 'Public secondaire', 'secondary')));
@@ -277,11 +308,17 @@ function render(r, target) {
   const copy = el('button', 'ghost small', 'Copier l’analyse');
   copy.type = 'button';
   copy.onclick = async () => {
-    try { await navigator.clipboard.writeText(asText(r)); copy.textContent = 'Copié ✓'; }
+    try { await navigator.clipboard.writeText(asText(r, target)); copy.textContent = 'Copié ✓'; }
     catch { copy.textContent = 'Copie impossible'; }
     setTimeout(() => (copy.textContent = 'Copier l’analyse'), 2000);
   };
-  actions.append(copy);
+  const txt = el('button', 'ghost small', '⬇ Télécharger (.txt)');
+  txt.type = 'button';
+  txt.onclick = () => download(fileName(r, 'txt'), asText(r, target), 'text/plain;charset=utf-8');
+  const doc = el('button', 'ghost small', '⬇ Télécharger (Word)');
+  doc.type = 'button';
+  doc.onclick = () => download(fileName(r, 'doc'), asWord(r, target), 'application/msword');
+  actions.append(txt, doc, copy);
 
   out.append(...[head, fit, audienceBlock, info, visuals, tips, actions].filter(Boolean));
 }
