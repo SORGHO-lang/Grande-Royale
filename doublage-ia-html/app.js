@@ -210,10 +210,9 @@ $('#dubForm').onsubmit = async (e) => {
         fd.append('target_lang', lang);
         fd.append('num_speakers', $('#speakers').value);
         fd.append('watermark', 'false');
-        fd.append('highest_resolution', 'true');
         fd.append('drop_background_audio', String(!$('#keepBg').checked));
         fd.append('disable_voice_cloning', String(!$('#cloneVoice').checked));
-        // Compte gratuit : ElevenLabs exige le filigrane (et parfois une résolution normale) → on réessaie automatiquement.
+        // Compte gratuit : ElevenLabs exige le filigrane → on réessaie automatiquement avec.
         let data;
         for (let attempt = 0; ; attempt++) {
           try {
@@ -223,8 +222,8 @@ $('#dubForm').onsubmit = async (e) => {
             if (attempt < 2 && /watermark/i.test(err.message) && fd.get('watermark') === 'false') {
               fd.set('watermark', 'true');
               job.watermark = true;
-            } else if (attempt < 2 && /resolution/i.test(err.message) && fd.get('highest_resolution') === 'true') {
-              fd.set('highest_resolution', 'false');
+            } else if (attempt < 2 && /resolution/i.test(err.message) && fd.has('highest_resolution')) {
+              fd.delete('highest_resolution');
             } else throw err;
           }
         }
