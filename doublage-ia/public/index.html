@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Doublage IA — Votre voix off dans toutes les langues</title>
+  <meta name="description" content="Doublez la voix off de vos vidéos dans plus de 30 langues avec une voix clonée réaliste." />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%237c5cff'/><path d='M8 13v6M12 10v12M16 7v18M20 11v10M24 14v4' stroke='white' stroke-width='2.4' stroke-linecap='round'/></svg>" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="top">
+    <div class="brand">
+      <span class="logo" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
+      <strong>Doublage IA</strong>
+    </div>
+    <button class="ghost" id="settingsBtn" type="button">⚙ Clé API</button>
+  </header>
+
+  <main>
+    <section class="hero">
+      <h1>Votre voix off,<br /><span class="grad">dans toutes les langues.</span></h1>
+      <p>Importez une vidéo : l'IA transcrit, traduit et <b>reproduit la voix d'origine</b> dans chaque langue choisie, en gardant la musique et les bruits de fond.</p>
+      <div id="demoBanner" class="banner" hidden>Mode démo : aucune API n'est appelée, la vidéo d'origine est renvoyée pour tester l'interface.</div>
+    </section>
+
+    <form id="dubForm" class="card" novalidate>
+      <div class="step"><span>1</span> Votre vidéo</div>
+      <div class="tabs" role="tablist">
+        <button type="button" class="tab active" data-tab="file" role="tab">Fichier</button>
+        <button type="button" class="tab" data-tab="url" role="tab">Lien (YouTube, TikTok, X…)</button>
+      </div>
+
+      <label id="drop" class="drop" data-pane="file">
+        <input type="file" id="video" accept="video/*,audio/*" hidden />
+        <div class="drop-empty">
+          <div class="drop-icon">⬆</div>
+          <b>Glissez votre vidéo ici</b>
+          <small>ou cliquez pour choisir · MP4, MOV, WEBM, MP3… jusqu'à 1 Go</small>
+        </div>
+        <div class="drop-file" hidden>
+          <video id="preview" muted playsinline></video>
+          <div><b id="fileName"></b><small id="fileSize"></small></div>
+          <button type="button" class="ghost small" id="clearFile">Changer</button>
+        </div>
+      </label>
+
+      <div data-pane="url" hidden>
+        <input type="url" id="sourceUrl" class="input" placeholder="https://www.youtube.com/watch?v=…" />
+      </div>
+
+      <div class="step"><span>2</span> Langues</div>
+      <div class="row">
+        <label class="field">
+          <span>Langue d'origine</span>
+          <select id="source" class="input"><option value="auto">Détection automatique</option></select>
+        </label>
+        <label class="field">
+          <span>Nombre de voix</span>
+          <select id="speakers" class="input">
+            <option value="0">Automatique</option>
+            <option value="1">1 personne</option><option value="2">2 personnes</option>
+            <option value="3">3 personnes</option><option value="4">4 personnes</option>
+            <option value="5">5 personnes ou +</option>
+          </select>
+        </label>
+      </div>
+      <div class="field"><span>Traduire vers <em id="countSel"></em></span></div>
+      <div id="langs" class="chips"></div>
+
+      <div class="step"><span>3</span> Options</div>
+      <label class="switch"><input type="checkbox" id="cloneVoice" checked /><i></i>
+        <span><b>Cloner la voix d'origine</b><small>Même timbre, même émotion, dans chaque langue (le plus réaliste).</small></span></label>
+      <label class="switch"><input type="checkbox" id="keepBg" checked /><i></i>
+        <span><b>Garder la musique et les bruits de fond</b><small>Seule la voix est remplacée.</small></span></label>
+
+      <p id="formError" class="error" hidden></p>
+      <button class="primary" id="submitBtn" type="submit">Lancer le doublage</button>
+    </form>
+
+    <section id="results" hidden>
+      <div class="results-head">
+        <h2>Vos doublages</h2>
+        <button class="ghost small" id="clearAll" type="button">Tout effacer</button>
+      </div>
+      <div id="jobs" class="jobs"></div>
+    </section>
+
+    <section class="how">
+      <div><b>01 · Transcription</b><p>La voix est isolée de la musique et transcrite mot à mot.</p></div>
+      <div><b>02 · Traduction</b><p>Le texte est adapté naturellement, avec le bon rythme.</p></div>
+      <div><b>03 · Voix clonée</b><p>La même voix parle la nouvelle langue, synchronisée sur l'image.</p></div>
+    </section>
+  </main>
+
+  <dialog id="settings">
+    <form method="dialog" class="dlg">
+      <h3>Clé API ElevenLabs</h3>
+      <p>Le doublage réaliste utilise <a href="https://elevenlabs.io/app/settings/api-keys" target="_blank" rel="noopener">ElevenLabs</a>. Votre clé reste dans ce navigateur et n'est envoyée qu'à votre serveur.</p>
+      <input type="password" id="apiKey" class="input" placeholder="sk_…" autocomplete="off" />
+      <p id="serverKeyNote" class="note" hidden>✔ Une clé est déjà configurée sur le serveur : ce champ est facultatif.</p>
+      <div class="dlg-actions">
+        <button class="ghost" value="cancel">Fermer</button>
+        <button class="primary" id="saveKey" value="save">Enregistrer</button>
+      </div>
+    </form>
+  </dialog>
+
+  <template id="jobTpl">
+    <article class="job">
+      <div class="job-head">
+        <span class="flag"></span>
+        <div><b class="job-lang"></b><small class="job-name"></small></div>
+        <span class="badge"></span>
+      </div>
+      <div class="bar"><i></i></div>
+      <div class="job-body"></div>
+    </article>
+  </template>
+
+  <footer>Doublage IA · propulsé par l'API Dubbing d'ElevenLabs</footer>
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,16 @@
+{
+  "name": "doublage-ia",
+  "version": "1.0.0",
+  "description": "Site web pour doubler la voix off d'une vidéo dans plusieurs langues avec des voix réalistes (clonage de voix ElevenLabs).",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "demo": "DEMO=1 node server.js"
+  },
+  "engines": { "node": ">=20" },
+  "dependencies": {
+    "express": "^4.21.2",
+    "multer": "^1.4.5-lts.1"
+  }
+}
