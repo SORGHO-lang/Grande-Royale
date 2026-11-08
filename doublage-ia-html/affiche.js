@@ -149,7 +149,7 @@ Réponds toujours en français, de façon claire et concrète, pour quelqu'un qu
 - public_cible : à qui s'adresse l'affiche. Le public principal et 1 à 3 publics secondaires, chacun avec un profil concret et la raison tirée de l'affiche (indices visuels ou textuels). Ajoute la tranche d'âge, les centres d'intérêt et la zone géographique visée (« non précisée » si rien ne l'indique).
 - conseils : 2 à 4 conseils concrets pour mieux toucher ce public.
 
-Appuie-toi uniquement sur ce que montre l'affiche et sur le contexte fourni. Si un texte est illisible, dis-le plutôt que d'inventer.`;
+Appuie-toi uniquement sur ce que montre l'affiche et sur le texte descriptif fourni. Si un texte est illisible, dis-le plutôt que d'inventer.`;
 
 // ---------- Appel à Claude ----------
 async function analyse(context) {
@@ -165,7 +165,7 @@ async function analyse(context) {
       role: 'user',
       content: [
         { type: 'image', source: { type: 'base64', media_type: poster.mediaType, data: poster.data } },
-        { type: 'text', text: context ? `Contexte donné par l'utilisateur : ${context}\n\nAnalyse cette affiche.` : 'Analyse cette affiche.' },
+        { type: 'text', text: context ? `Texte descriptif fourni par l'utilisateur : ${context}\n\nAnalyse cette affiche.` : 'Analyse cette affiche.' },
       ],
     }],
   });
