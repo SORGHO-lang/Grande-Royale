@@ -8,7 +8,7 @@
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%237c5cff'/><path d='M8 13v6M12 10v12M16 7v18M20 11v10M24 14v4' stroke='white' stroke-width='2.4' stroke-linecap='round'/></svg>" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css?v=5" />
+  <link rel="stylesheet" href="style.css?v=6" />
 </head>
 <body>
   <header class="top">
@@ -148,14 +148,18 @@
     </form>
   </dialog>
 
-  <dialog id="claudeSettings">
+  <dialog id="openaiSettings">
     <form method="dialog" class="dlg">
-      <h3>Clé API Claude</h3>
-      <p>L'analyse d'affiche utilise <a href="https://platform.claude.com/settings/keys" target="_blank" rel="noopener">Claude (Anthropic)</a>. Votre clé reste enregistrée uniquement dans ce navigateur et n&rsquo;est envoyée qu&rsquo;à Anthropic.</p>
-      <input type="password" id="claudeKey" class="input" placeholder="sk-ant-…" autocomplete="off" />
+      <h3>Clé API OpenAI</h3>
+      <p>L'analyse d'affiche utilise <a href="https://platform.openai.com/api-keys" target="_blank" rel="noopener">OpenAI</a>. Votre clé reste enregistrée uniquement dans ce navigateur et n&rsquo;est envoyée qu&rsquo;à OpenAI.</p>
+      <input type="password" id="openaiKey" class="input" placeholder="sk-…" autocomplete="off" />
+      <label class="field">
+        <span>Modèle <small class="optional">(facultatif)</small></span>
+        <input type="text" id="openaiModel" class="input" placeholder="Automatique : le plus récent disponible" autocomplete="off" />
+      </label>
       <div class="dlg-actions">
         <button class="ghost" value="cancel">Fermer</button>
-        <button class="primary" id="saveClaudeKey" value="save">Enregistrer</button>
+        <button class="primary" id="saveOpenaiKey" value="save">Enregistrer</button>
       </div>
     </form>
   </dialog>
@@ -172,8 +176,8 @@
     </article>
   </template>
 
-  <footer>Doublage IA · doublage par ElevenLabs · analyse par Claude · v5</footer>
-  <script src="app.js?v=5"></script>
-  <script type="module" src="affiche.js?v=5"></script>
+  <footer>Doublage IA · doublage par ElevenLabs · analyse par OpenAI · v6</footer>
+  <script src="app.js?v=6"></script>
+  <script type="module" src="affiche.js?v=6"></script>
 </body>
 </html>

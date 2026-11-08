@@ -1,17 +1,20 @@
-// Analyse d'affiche — décrit une affiche et identifie son public cible avec Claude (Anthropic).
-// Le navigateur appelle directement l'API Claude avec la clé saisie par l'utilisateur
+// Analyse d'affiche — décrit une affiche et identifie son public cible avec OpenAI.
+// Le navigateur appelle directement l'API OpenAI (Responses API) avec la clé saisie par l'utilisateur
 // (enregistrée uniquement dans ce navigateur). Ajoutez ?demo à l'adresse pour tester sans clé.
-import { Anthropic } from './anthropic-sdk.js?v=5';
-
-const MODEL = 'claude-opus-5-5';
-const KEY_STORE = 'doublage-ia-claude-key';
+const API = 'https://api.openai.com/v1';
+const KEY_STORE = 'doublage-ia-openai-key';
+const MODEL_STORE = 'doublage-ia-openai-model';
 const IS_DEMO = new URLSearchParams(location.search).has('demo');
 const $ = (s) => document.querySelector(s);
 
-const store = {
-  get() { try { return localStorage.getItem(KEY_STORE) || ''; } catch { return ''; } },
-  set(v) { try { v ? localStorage.setItem(KEY_STORE, v) : localStorage.removeItem(KEY_STORE); } catch { /* stockage indisponible */ } },
-};
+function saved(name) {
+  return {
+    get() { try { return localStorage.getItem(name) || ''; } catch { return ''; } },
+    set(v) { try { v ? localStorage.setItem(name, v) : localStorage.removeItem(name); } catch { /* stockage indisponible */ } },
+  };
+}
+const store = saved(KEY_STORE);
+const modelStore = saved(MODEL_STORE);
 
 // ---------- Navigation entre les deux outils ----------
 function showView() {
@@ -19,23 +22,27 @@ function showView() {
   $('#view-doublage').hidden = view !== 'doublage';
   $('#view-affiche').hidden = view !== 'affiche';
   document.querySelectorAll('.view-link').forEach((a) => a.classList.toggle('active', a.dataset.view === view));
-  $('#settingsBtn').textContent = view === 'affiche' ? '⚙ Clé Claude' : '⚙ Clé API';
+  $('#settingsBtn').textContent = view === 'affiche' ? '⚙ Clé OpenAI' : '⚙ Clé API';
   return view;
 }
 window.addEventListener('hashchange', showView);
 const openElevenLabs = $('#settingsBtn').onclick;
-$('#settingsBtn').onclick = () => (showView() === 'affiche' ? openClaudeSettings() : openElevenLabs());
+$('#settingsBtn').onclick = () => (showView() === 'affiche' ? openAiSettings() : openElevenLabs());
 
-// ---------- Clé Claude ----------
-function openClaudeSettings() {
-  $('#claudeKey').placeholder = store.get() ? '•••••••• (clé enregistrée)' : 'sk-ant-…';
-  $('#claudeSettings').showModal();
+// ---------- Clé et modèle OpenAI ----------
+function openAiSettings() {
+  $('#openaiKey').placeholder = store.get() ? '•••••••• (clé enregistrée)' : 'sk-…';
+  $('#openaiModel').value = modelStore.get();
+  $('#openaiSettings').showModal();
 }
-$('#saveClaudeKey').onclick = (e) => {
+$('#saveOpenaiKey').onclick = (e) => {
   e.preventDefault();
-  store.set($('#claudeKey').value.replace(/["'\s]/g, ''));
-  $('#claudeKey').value = '';
-  $('#claudeSettings').close();
+  const key = $('#openaiKey').value.replace(/["'\s]/g, '');
+  if (key) store.set(key);
+  modelStore.set($('#openaiModel').value.trim());
+  autoModel = null;
+  $('#openaiKey').value = '';
+  $('#openaiSettings').close();
 };
 
 // ---------- Choix de l'affiche ----------
@@ -158,49 +165,92 @@ Réponds toujours en français, de façon claire et concrète, pour quelqu'un qu
 
 Appuie-toi uniquement sur ce que montre l'affiche et sur le texte descriptif fourni. Si un texte est illisible, dis-le plutôt que d'inventer.`;
 
-// ---------- Appel à Claude ----------
-async function analyse(context, target) {
-  const client = new Anthropic({ apiKey: store.get(), dangerouslyAllowBrowser: true });
-  const response = await client.beta.messages.create({
-    model: MODEL,
-    max_tokens: 16000,
-    betas: ['server-side-fallback-2026-07-01'],
-    fallbacks: 'default',
-    system: SYSTEM,
-    output_config: { effort: 'medium', format: { type: 'json_schema', schema: SCHEMA } },
-    messages: [{
-      role: 'user',
-      content: [
-        { type: 'image', source: { type: 'base64', media_type: poster.mediaType, data: poster.data } },
-        { type: 'text', text: [
-          context && `Texte descriptif fourni par l'utilisateur : ${context}`,
-          target ? `Public visé par l'utilisateur : ${target}` : 'Aucun public visé indiqué.',
-          'Analyse cette affiche.',
-        ].filter(Boolean).join('\n\n') },
-      ],
-    }],
-  });
-  if (response.stop_reason === 'refusal') {
-    throw new Error('Claude a refusé d’analyser cette affiche. Essayez avec une autre image.');
+// ---------- Appel à OpenAI ----------
+class AiError extends Error {
+  constructor(status, message, code) { super(message); this.status = status; this.code = code; }
+}
+
+async function openai(path, init = {}) {
+  let res;
+  try {
+    res = await fetch(API + path, {
+      ...init,
+      headers: { Authorization: `Bearer ${store.get()}`, 'Content-Type': 'application/json', ...(init.headers || {}) },
+    });
+  } catch {
+    throw new AiError(0, 'network');
   }
-  if (response.stop_reason === 'max_tokens') {
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) throw new AiError(res.status, data.error?.message || `Erreur ${res.status}`, data.error?.code || data.error?.type);
+  return data;
+}
+
+// Choisit le modèle : celui des réglages, sinon le plus récent modèle « gpt-X » (non mini) disponible pour cette clé.
+let autoModel = null;
+async function pickModel() {
+  if (modelStore.get()) return modelStore.get();
+  if (autoModel) return autoModel;
+  const version = (id) => {
+    const m = id.match(/^gpt-(\d+(?:\.\d+)?)(o)?$/);
+    return m ? parseFloat(m[1]) : null;
+  };
+  try {
+    const { data = [] } = await openai('/models');
+    const best = data.map((m) => m.id).filter((id) => (version(id) ?? 0) >= 4.1)
+      .sort((x, y) => version(y) - version(x))[0];
+    autoModel = best || 'gpt-4.1';
+  } catch (err) {
+    if (err.status === 401 || err.status === 0) throw err;
+    autoModel = 'gpt-4.1';
+  }
+  return autoModel;
+}
+
+async function analyse(context, target) {
+  const model = await pickModel();
+  const response = await openai('/responses', {
+    method: 'POST',
+    body: JSON.stringify({
+      model,
+      instructions: SYSTEM,
+      max_output_tokens: 16000,
+      input: [{
+        role: 'user',
+        content: [
+          { type: 'input_image', image_url: poster.dataUrl },
+          { type: 'input_text', text: [
+            context && `Texte descriptif fourni par l'utilisateur : ${context}`,
+            target ? `Public visé par l'utilisateur : ${target}` : 'Aucun public visé indiqué.',
+            'Analyse cette affiche.',
+          ].filter(Boolean).join('\n\n') },
+        ],
+      }],
+      text: { format: { type: 'json_schema', name: 'analyse_affiche', schema: SCHEMA, strict: true } },
+    }),
+  });
+  if (response.status === 'incomplete') {
     throw new Error('La réponse a été coupée. Réessayez.');
   }
-  const text = response.content.filter((b) => b.type === 'text').map((b) => b.text).join('');
-  try { return JSON.parse(text); } catch { throw new Error('Réponse inattendue de Claude. Réessayez.'); }
+  const parts = (response.output || []).filter((o) => o.type === 'message').flatMap((o) => o.content || []);
+  if (parts.some((c) => c.type === 'refusal')) {
+    throw new Error('OpenAI a refusé d\u2019analyser cette affiche. Essayez avec une autre image.');
+  }
+  const text = parts.filter((c) => c.type === 'output_text').map((c) => c.text).join('');
+  try { return JSON.parse(text); } catch { throw new Error('Réponse inattendue d\u2019OpenAI. Réessayez.'); }
 }
 
 function explain(err) {
-  if (err instanceof Anthropic.AuthenticationError) return 'Clé Claude refusée. Vérifiez-la avec le bouton ⚙ Clé Claude.';
-  if (err instanceof Anthropic.PermissionDeniedError) return 'Cette clé Claude n’a pas accès à ce modèle.';
-  if (err instanceof Anthropic.RateLimitError) return 'Trop de demandes pour le moment. Patientez une minute puis réessayez.';
-  if (err instanceof Anthropic.APIConnectionError) return 'Impossible de joindre Claude. Vérifiez votre connexion internet.';
-  if (err instanceof Anthropic.APIError) {
-    const msg = err.error?.error?.message || err.message;
-    if (/credit balance/i.test(msg)) return 'Crédit Claude insuffisant. Ajoutez du crédit sur platform.claude.com (Billing).';
-    return `Claude (${err.status ?? 'erreur'}) : ${msg}`;
+  if (!(err instanceof AiError)) return err.message || String(err);
+  if (err.status === 0) return 'Impossible de joindre OpenAI. Vérifiez votre connexion internet.';
+  if (err.status === 401) return 'Clé OpenAI refusée. Vérifiez-la avec le bouton ⚙ Clé OpenAI.';
+  if (err.code === 'insufficient_quota' || /quota|billing/i.test(err.message)) {
+    return 'Crédit OpenAI insuffisant. Ajoutez du crédit sur platform.openai.com (Settings → Billing).';
   }
-  return err.message || String(err);
+  if (err.status === 429) return 'Trop de demandes pour le moment. Patientez une minute puis réessayez.';
+  if (err.status === 404 || err.code === 'model_not_found') {
+    return `Modèle OpenAI introuvable pour cette clé. Videz le champ « Modèle » dans ⚙ Clé OpenAI, ou indiquez-en un autre. (${err.message})`;
+  }
+  return `OpenAI (${err.status}) : ${err.message}`;
 }
 
 // ---------- Affichage du résultat ----------
@@ -350,14 +400,14 @@ $('#posterForm').onsubmit = async (e) => {
   e.preventDefault();
   showError('');
   if (!poster) return showError('Ajoutez d’abord une affiche.');
-  if (!IS_DEMO && !store.get()) { openClaudeSettings(); return showError('Ajoutez votre clé API Claude.'); }
+  if (!IS_DEMO && !store.get()) { openAiSettings(); return showError('Ajoutez votre clé API OpenAI.'); }
 
   const btn = $('#posterSubmit');
   const out = $('#posterResult');
   btn.disabled = true;
   btn.textContent = 'Analyse en cours…';
   const loading = el('div', 'block loading');
-  loading.append(el('span', 'spinner'), el('span', '', 'Claude lit votre affiche… (10 à 40 secondes)'));
+  loading.append(el('span', 'spinner'), el('span', '', 'L’IA lit votre affiche… (10 à 40 secondes)'));
   out.replaceChildren(loading);
   out.hidden = false;
   try {

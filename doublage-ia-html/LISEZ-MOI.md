@@ -8,16 +8,15 @@ saisie via le bouton **⚙ Clé API** et enregistrée uniquement dans son naviga
 
 Le site contient deux outils (onglets en haut de la page) :
 - **Doublage vidéo** — ElevenLabs, clé via **⚙ Clé API**
-- **Analyse d'affiche** (`#affiche`) — décrit une affiche et identifie son public cible avec Claude (Anthropic),
-  clé via **⚙ Clé Claude** (à créer sur https://platform.claude.com/settings/keys)
+- **Analyse d'affiche** (`#affiche`) — décrit une affiche et identifie son public cible avec OpenAI,
+  clé via **⚙ Clé OpenAI** (à créer sur https://platform.openai.com/api-keys). Le modèle est choisi
+  automatiquement (le plus récent « gpt-… » disponible pour la clé) ou fixé dans le même réglage.
 
 ## Mise en ligne sur Hostinger
 1. hPanel → **Gestionnaire de fichiers** → dossier `public_html`
-2. Envoyez les 5 fichiers : `index.html`, `style.css`, `app.js`, `affiche.js`, `anthropic-sdk.js`
+2. Envoyez les 4 fichiers : `index.html`, `style.css`, `app.js`, `affiche.js`
    (ou le zip, puis « Extraire »)
 3. Ouvrez votre domaine et saisissez vos clés avec le bouton **⚙**
-
-`anthropic-sdk.js` est la bibliothèque officielle d'Anthropic (`@anthropic-ai/sdk` 1.3.0) regroupée pour le navigateur.
 
 L'analyse d'affiche ne marche pas en ouvrant `index.html` en double-clic (fichier local) : elle doit être servie par un site web (Hostinger, etc.).
 
