@@ -104,7 +104,7 @@ function init() {
   syncSource();
 
   store.get().forEach(renderJob);
-  if (!DEMO && !getKey()) openSettings();
+  if (!DEMO && !getKey() && location.hash !== '#affiche') openSettings();
 }
 
 function toggleLang(c, btn) {

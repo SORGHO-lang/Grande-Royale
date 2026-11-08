@@ -8,7 +8,7 @@
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%237c5cff'/><path d='M8 13v6M12 10v12M16 7v18M20 11v10M24 14v4' stroke='white' stroke-width='2.4' stroke-linecap='round'/></svg>" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css?v=4" />
+  <link rel="stylesheet" href="style.css?v=5" />
 </head>
 <body>
   <header class="top">
@@ -16,10 +16,15 @@
       <span class="logo" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
       <strong>Doublage IA</strong>
     </div>
+    <nav class="views" aria-label="Outils">
+      <a href="#doublage" class="view-link active" data-view="doublage">Doublage vidéo</a>
+      <a href="#affiche" class="view-link" data-view="affiche">Analyse d'affiche</a>
+    </nav>
     <button class="ghost" id="settingsBtn" type="button">⚙ Clé API</button>
   </header>
 
   <main>
+   <div id="view-doublage">
     <section class="hero">
       <h1>Votre voix off,<br /><span class="grad">dans toutes les langues.</span></h1>
       <p>Importez une vidéo : l'IA transcrit, traduit et <b>reproduit la voix d'origine</b> dans chaque langue choisie, en gardant la musique et les bruits de fond.</p>
@@ -93,6 +98,38 @@
       <div><b>02 · Traduction</b><p>Le texte est adapté naturellement, avec le bon rythme.</p></div>
       <div><b>03 · Voix clonée</b><p>La même voix parle la nouvelle langue, synchronisée sur l'image.</p></div>
     </section>
+   </div>
+
+   <div id="view-affiche" hidden>
+    <section class="hero">
+      <h1>Votre affiche,<br /><span class="grad">lue et décryptée.</span></h1>
+      <p>Importez une affiche : l'IA la <b>décrit</b>, relève les informations clés et identifie le <b>public cible</b> auquel elle s'adresse.</p>
+    </section>
+
+    <form id="posterForm" class="card" novalidate>
+      <div class="step"><span>1</span> Votre affiche</div>
+      <label id="posterDrop" class="drop">
+        <input type="file" id="posterInput" accept="image/png,image/jpeg,image/webp,image/gif" hidden />
+        <div class="drop-empty" id="posterEmpty">
+          <div class="drop-icon">🖼</div>
+          <b>Glissez votre affiche ici</b>
+          <small>ou cliquez pour choisir · JPG, PNG, WEBP</small>
+        </div>
+        <div class="poster-file" id="posterFile" hidden>
+          <img id="posterPreview" alt="Aperçu de l'affiche" />
+          <button type="button" class="ghost small" id="posterClear">Changer</button>
+        </div>
+      </label>
+
+      <div class="step"><span>2</span> Contexte <small class="optional">(facultatif)</small></div>
+      <textarea id="posterContext" class="input" rows="3" placeholder="Ex. : affiche pour un concert à Ouagadougou, diffusée sur Facebook…"></textarea>
+
+      <p id="posterError" class="error" hidden></p>
+      <button class="primary" id="posterSubmit" type="submit">Analyser l'affiche</button>
+    </form>
+
+    <section id="posterResult" class="analysis" hidden aria-live="polite"></section>
+   </div>
   </main>
 
   <dialog id="settings">
@@ -103,6 +140,18 @@
       <div class="dlg-actions">
         <button class="ghost" value="cancel">Fermer</button>
         <button class="primary" id="saveKey" value="save">Enregistrer</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="claudeSettings">
+    <form method="dialog" class="dlg">
+      <h3>Clé API Claude</h3>
+      <p>L'analyse d'affiche utilise <a href="https://platform.claude.com/settings/keys" target="_blank" rel="noopener">Claude (Anthropic)</a>. Votre clé reste enregistrée uniquement dans ce navigateur et n&rsquo;est envoyée qu&rsquo;à Anthropic.</p>
+      <input type="password" id="claudeKey" class="input" placeholder="sk-ant-…" autocomplete="off" />
+      <div class="dlg-actions">
+        <button class="ghost" value="cancel">Fermer</button>
+        <button class="primary" id="saveClaudeKey" value="save">Enregistrer</button>
       </div>
     </form>
   </dialog>
@@ -119,7 +168,8 @@
     </article>
   </template>
 
-  <footer>Doublage IA · propulsé par l'API Dubbing d'ElevenLabs · v4</footer>
-  <script src="app.js?v=4"></script>
+  <footer>Doublage IA · doublage par ElevenLabs · analyse par Claude · v5</footer>
+  <script src="app.js?v=5"></script>
+  <script type="module" src="affiche.js?v=5"></script>
 </body>
 </html>

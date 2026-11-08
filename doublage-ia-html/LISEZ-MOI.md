@@ -6,10 +6,20 @@ Même site que `doublage-ia/`, mais en **HTML/CSS/JS uniquement** : il s'héberg
 Le navigateur du visiteur appelle directement l'API Dubbing d'ElevenLabs avec **sa propre clé**,
 saisie via le bouton **⚙ Clé API** et enregistrée uniquement dans son navigateur.
 
+Le site contient deux outils (onglets en haut de la page) :
+- **Doublage vidéo** — ElevenLabs, clé via **⚙ Clé API**
+- **Analyse d'affiche** (`#affiche`) — décrit une affiche et identifie son public cible avec Claude (Anthropic),
+  clé via **⚙ Clé Claude** (à créer sur https://platform.claude.com/settings/keys)
+
 ## Mise en ligne sur Hostinger
 1. hPanel → **Gestionnaire de fichiers** → dossier `public_html`
-2. Envoyez `index.html`, `style.css` et `app.js` (ou le zip, puis « Extraire »)
-3. Ouvrez votre domaine, cliquez sur **⚙ Clé API**, collez votre clé ElevenLabs
+2. Envoyez les 5 fichiers : `index.html`, `style.css`, `app.js`, `affiche.js`, `anthropic-sdk.js`
+   (ou le zip, puis « Extraire »)
+3. Ouvrez votre domaine et saisissez vos clés avec le bouton **⚙**
+
+`anthropic-sdk.js` est la bibliothèque officielle d'Anthropic (`@anthropic-ai/sdk` 1.3.0) regroupée pour le navigateur.
+
+L'analyse d'affiche ne marche pas en ouvrant `index.html` en double-clic (fichier local) : elle doit être servie par un site web (Hostinger, etc.).
 
 ## Tester sans clé
 Ajoutez `?demo` à l'adresse (ex. `https://votresite.com/?demo`) : le doublage est simulé.
