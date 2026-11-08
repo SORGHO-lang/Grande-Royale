@@ -213,7 +213,21 @@ $('#dubForm').onsubmit = async (e) => {
         fd.append('highest_resolution', 'true');
         fd.append('drop_background_audio', String(!$('#keepBg').checked));
         fd.append('disable_voice_cloning', String(!$('#cloneVoice').checked));
-        const data = await createDubbing(fd, (p) => (btn.textContent = `Envoi ${label}… ${Math.round(p * 100)} %`));
+        // Compte gratuit : ElevenLabs exige le filigrane (et parfois une résolution normale) → on réessaie automatiquement.
+        let data;
+        for (let attempt = 0; ; attempt++) {
+          try {
+            data = await createDubbing(fd, (p) => (btn.textContent = `Envoi ${label}… ${Math.round(p * 100)} %`));
+            break;
+          } catch (err) {
+            if (attempt < 2 && /watermark/i.test(err.message) && fd.get('watermark') === 'false') {
+              fd.set('watermark', 'true');
+              job.watermark = true;
+            } else if (attempt < 2 && /resolution/i.test(err.message) && fd.get('highest_resolution') === 'true') {
+              fd.set('highest_resolution', 'false');
+            } else throw err;
+          }
+        }
         job.id = data.dubbing_id;
         job.expected = data.expected_duration_sec;
       }
@@ -302,7 +316,8 @@ async function showDone(el, job) {
         <a class="ghost small" href="${videoUrl}" download="${base}-${job.lang}.${ext}">⬇ Vidéo doublée</a>
         ${srtUrl ? `<a class="ghost small" href="${srtUrl}" download="${base}-${job.lang}.srt">⬇ Sous-titres .srt</a>` : ''}
         <button class="ghost small" type="button" data-remove>Retirer</button>
-      </div>`;
+      </div>
+      ${job.watermark ? '<small class="note-dl">Compte ElevenLabs gratuit : la vidéo contient un filigrane. Il disparaît avec l’offre Starter.</small>' : ''}`;
     badge.textContent = 'Prêt ✓';
     badge.className = 'badge ok';
   } catch (err) {

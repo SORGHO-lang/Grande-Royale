@@ -129,3 +129,5 @@ footer { text-align: center; color: var(--muted); font-size: 13px; padding: 20px
   .drop-file { flex-wrap: wrap; }
   .drop-file video { width: 100%; }
 }
+
+.note-dl { font-size: 13px; color: var(--muted); }
