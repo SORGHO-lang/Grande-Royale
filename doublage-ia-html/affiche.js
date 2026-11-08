@@ -131,8 +131,14 @@ const SCHEMA = {
       additionalProperties: false,
     },
     conseils: strList,
+    public_vise: {
+      type: 'object',
+      properties: { verdict: str, points_forts: strList, a_ameliorer: strList },
+      required: ['verdict', 'points_forts', 'a_ameliorer'],
+      additionalProperties: false,
+    },
   },
-  required: ['titre', 'type_affiche', 'description', 'message_principal', 'informations_cles', 'elements_visuels', 'ton', 'public_cible', 'conseils'],
+  required: ['titre', 'type_affiche', 'description', 'message_principal', 'informations_cles', 'elements_visuels', 'ton', 'public_cible', 'conseils', 'public_vise'],
   additionalProperties: false,
 };
 
@@ -148,11 +154,12 @@ Réponds toujours en français, de façon claire et concrète, pour quelqu'un qu
 - ton : le style et l'émotion dégagés (ex. festif, sérieux, haut de gamme, militant…).
 - public_cible : à qui s'adresse l'affiche. Le public principal et 1 à 3 publics secondaires, chacun avec un profil concret et la raison tirée de l'affiche (indices visuels ou textuels). Ajoute la tranche d'âge, les centres d'intérêt et la zone géographique visée (« non précisée » si rien ne l'indique).
 - conseils : 2 à 4 conseils concrets pour mieux toucher ce public.
+- public_vise : seulement si l'utilisateur indique le public qu'il vise. verdict : une phrase qui dit si l'affiche convient à ce public (bien adaptée, en partie adaptée ou peu adaptée) et pourquoi ; points_forts : ce qui lui parle déjà ; a_ameliorer : ce qu'il faudrait changer pour mieux le toucher. Si aucun public visé n'est indiqué, renvoie un verdict vide et deux listes vides.
 
 Appuie-toi uniquement sur ce que montre l'affiche et sur le texte descriptif fourni. Si un texte est illisible, dis-le plutôt que d'inventer.`;
 
 // ---------- Appel à Claude ----------
-async function analyse(context) {
+async function analyse(context, target) {
   const client = new Anthropic({ apiKey: store.get(), dangerouslyAllowBrowser: true });
   const response = await client.beta.messages.create({
     model: MODEL,
@@ -165,7 +172,11 @@ async function analyse(context) {
       role: 'user',
       content: [
         { type: 'image', source: { type: 'base64', media_type: poster.mediaType, data: poster.data } },
-        { type: 'text', text: context ? `Texte descriptif fourni par l'utilisateur : ${context}\n\nAnalyse cette affiche.` : 'Analyse cette affiche.' },
+        { type: 'text', text: [
+          context && `Texte descriptif fourni par l'utilisateur : ${context}`,
+          target ? `Public visé par l'utilisateur : ${target}` : 'Aucun public visé indiqué.',
+          'Analyse cette affiche.',
+        ].filter(Boolean).join('\n\n') },
       ],
     }],
   });
@@ -226,10 +237,12 @@ function asText(r) {
     ...p.secondaires.map((s) => `- Secondaire : ${s.nom} — ${s.profil}`),
     `Âge : ${p.tranche_age}`, `Centres d'intérêt : ${p.centres_interet.join(', ')}`, `Zone : ${p.zone_geographique}`,
     '', 'Conseils :', ...r.conseils.map((c) => `- ${c}`),
+    ...(r.public_vise?.verdict ? ['', 'VOTRE PUBLIC CIBLE', r.public_vise.verdict,
+      ...r.public_vise.points_forts.map((x) => `+ ${x}`), ...r.public_vise.a_ameliorer.map((x) => `- À améliorer : ${x}`)] : []),
   ].join('\n');
 }
 
-function render(r) {
+function render(r, target) {
   const out = $('#posterResult');
   out.replaceChildren();
   const p = r.public_cible;
@@ -242,7 +255,7 @@ function render(r) {
   facts.append(el('dt', '', 'Âge'), el('dd', '', p.tranche_age), el('dt', '', 'Zone'), el('dd', '', p.zone_geographique));
   const interests = el('div', 'pills');
   p.centres_interet.forEach((c) => interests.append(el('span', '', c)));
-  const target = block('Public cible', el('p', '', p.resume), audiences, facts, interests);
+  const audienceBlock = block('Public cible selon l\u2019IA', el('p', '', p.resume), audiences, facts, interests);
 
   let info = null;
   if (r.informations_cles.length) {
@@ -252,6 +265,13 @@ function render(r) {
   }
   const visuals = block('Éléments visuels', list(r.elements_visuels));
   const tips = block('Conseils pour mieux toucher ce public', list(r.conseils));
+  const v = r.public_vise;
+  let fit = null;
+  if (v && v.verdict) {
+    fit = block('Votre public cible', el('p', 'muted', 'Public indiqué : ' + target), el('p', 'verdict', v.verdict),
+      v.points_forts.length && el('b', '', 'Ce qui lui parle déjà'), v.points_forts.length && list(v.points_forts),
+      v.a_ameliorer.length && el('b', '', 'À améliorer pour le toucher'), v.a_ameliorer.length && list(v.a_ameliorer));
+  }
 
   const actions = el('div', 'analysis-actions');
   const copy = el('button', 'ghost small', 'Copier l’analyse');
@@ -263,7 +283,7 @@ function render(r) {
   };
   actions.append(copy);
 
-  out.append(...[head, target, info, visuals, tips, actions].filter(Boolean));
+  out.append(...[head, fit, audienceBlock, info, visuals, tips, actions].filter(Boolean));
 }
 
 const DEMO_RESULT = {
@@ -280,6 +300,12 @@ const DEMO_RESULT = {
     tranche_age: '18-35 ans', centres_interet: ['Musique', 'Sorties', 'Culture locale', 'Danse'], zone_geographique: 'Ville et alentours',
   },
   conseils: ['Ajouter le nom des artistes invités pour attirer leurs fans.', 'Publier une version carrée pour Instagram et Facebook.', 'Indiquer un numéro WhatsApp pour les réservations.'],
+  public_vise: { verdict: '', points_forts: [], a_ameliorer: [] },
+};
+const DEMO_FIT = {
+  verdict: '[Démo] En partie adaptée : l\u2019ambiance festive attire bien ce public, mais rien n\u2019indique qu\u2019il est le premier visé.',
+  points_forts: ['Couleurs vives et artiste moderne, qui parlent aux jeunes.', 'Prix d\u2019entrée accessible.'],
+  a_ameliorer: ['Ajouter un tarif étudiant bien visible.', 'Mentionner les artistes que ce public suit sur les réseaux.'],
 };
 
 // ---------- Envoi ----------
@@ -298,10 +324,11 @@ $('#posterForm').onsubmit = async (e) => {
   out.replaceChildren(loading);
   out.hidden = false;
   try {
+    const target = $('#posterTarget').value.trim();
     const result = IS_DEMO
-      ? await new Promise((r) => setTimeout(() => r(DEMO_RESULT), 1200))
-      : await analyse($('#posterContext').value.trim());
-    render(result);
+      ? await new Promise((r) => setTimeout(() => r({ ...DEMO_RESULT, public_vise: target ? DEMO_FIT : DEMO_RESULT.public_vise }), 1200))
+      : await analyse($('#posterContext').value.trim(), target);
+    render(result, target);
     out.scrollIntoView({ behavior: 'smooth', block: 'start' });
   } catch (err) {
     out.hidden = true;
