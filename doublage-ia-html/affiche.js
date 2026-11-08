@@ -37,9 +37,15 @@ function openAiSettings() {
 }
 $('#saveOpenaiKey').onclick = (e) => {
   e.preventDefault();
-  const key = $('#openaiKey').value.replace(/["'\s]/g, '');
+  let key = $('#openaiKey').value.replace(/["'\s]/g, '');
+  let model = $('#openaiModel').value.trim();
+  // Une clé collée par erreur dans le champ « Modèle » est remise à sa place.
+  if (/^sk-/i.test(model)) {
+    if (!key) key = model.replace(/["'\s]/g, '');
+    model = '';
+  }
   if (key) store.set(key);
-  modelStore.set($('#openaiModel').value.trim());
+  modelStore.set(model);
   autoModel = null;
   $('#openaiKey').value = '';
   $('#openaiSettings').close();
@@ -188,6 +194,7 @@ async function openai(path, init = {}) {
 // Choisit le modèle : celui des réglages, sinon le plus récent modèle « gpt-X » (non mini) disponible pour cette clé.
 let autoModel = null;
 async function pickModel() {
+  if (/^sk-/i.test(modelStore.get())) modelStore.set(''); // ancienne erreur de saisie
   if (modelStore.get()) return modelStore.get();
   if (autoModel) return autoModel;
   const version = (id) => {
@@ -239,7 +246,13 @@ async function analyse(context, target) {
   try { return JSON.parse(text); } catch { throw new Error('Réponse inattendue d\u2019OpenAI. Réessayez.'); }
 }
 
+// Ne jamais réafficher une clé dans un message d'erreur.
+const hideKeys = (t) => String(t).replace(/sk-[\w-]{4,}/g, 'sk-…');
+
 function explain(err) {
+  return hideKeys(describe(err));
+}
+function describe(err) {
   if (!(err instanceof AiError)) return err.message || String(err);
   if (err.status === 0) return 'Impossible de joindre OpenAI. Vérifiez votre connexion internet.';
   if (err.status === 401) return 'Clé OpenAI refusée. Vérifiez-la avec le bouton ⚙ Clé OpenAI.';

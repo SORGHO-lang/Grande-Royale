@@ -86,7 +86,7 @@ button { font: inherit; }
 .ghost { border: 1px solid var(--line); background: transparent; color: var(--text); padding: 8px 14px; border-radius: 10px; cursor: pointer; }
 .ghost:hover { border-color: var(--accent); }
 .small { padding: 6px 10px; font-size: 13px; }
-.error { color: var(--err); background: #ff5d7314; border-radius: 10px; padding: 10px 12px; margin: 14px 0 0; }
+.error { overflow-wrap: anywhere; color: var(--err); background: #ff5d7314; border-radius: 10px; padding: 10px 12px; margin: 14px 0 0; }
 
 #results { margin-top: 36px; }
 .results-head { display: flex; justify-content: space-between; align-items: center; }
